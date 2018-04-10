@@ -30,7 +30,6 @@ export default class EchartsTest4 extends Component {
                         subtext: '数据来自网络'
 
                     },
-                    color: ['#7CFC00'],
 
                     tooltip: {
                         trigger: 'axis',
@@ -55,12 +54,12 @@ export default class EchartsTest4 extends Component {
                     series: [
 
                         {
-                            name: '专利总数',
+                            name: '文献总数',
                             type: 'line',
                             data: sourse2,
                             itemStyle: {
                                 normal: {
-                                    color: '#4ad2ff'
+                                    color: '#0000CD'
                                 }
                             }
                         }

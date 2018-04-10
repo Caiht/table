@@ -59,12 +59,12 @@ export default class EchartsTest8 extends Component {
                             data: sourse2,
                             itemStyle: {
                                 normal: {
-                                    color: '#00FFFF'
+                                    color: '#7CFC00'
                                 }
                             }
                         },
                         {
-                            name: '文献总数',
+                            name: '专利总数',
                             type: 'bar',
                             data: sourse2,
                             itemStyle: {

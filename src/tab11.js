@@ -64,7 +64,7 @@ export default class EchartsTest7 extends Component {
                             }
                         },
                         {
-                            name: '文献总数',
+                            name: '专利总数',
                             type: 'bar',
                             data: sourse2,
                             itemStyle: {

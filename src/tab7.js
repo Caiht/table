@@ -51,14 +51,14 @@ export default class EchartsTest3 extends Component {
                     },
                     yAxis: {
                         type: 'category',
-                        data: [res.data.data[0].commonId,res.data.data[1].commonId,res.data.data[2].commonId,res.data.data[3].commonId,res.data.data[4].commonId,res.data.data[5].commonId,res.data.data[6].commonId,res.data.data[7].commonId,res.data.data[8].commonId,res.data.data[9].commonId],
+                        data: [res.data.data[9].commonId,res.data.data[8].commonId,res.data.data[7].commonId,res.data.data[6].commonId,res.data.data[5].commonId,res.data.data[4].commonId,res.data.data[3].commonId,res.data.data[2].commonId,res.data.data[1].commonId,res.data.data[0].commonId],
                     },
                     series: [
 
                         {
                             name: '专利总数',
                             type: 'bar',
-                            data: [res.data.data[0].count,res.data.data[1].count,res.data.data[2].count,res.data.data[3].count,res.data.data[4].count,res.data.data[5].count,res.data.data[6].count,res.data.data[7].count,res.data.data[8].count,res.data.data[9].count]
+                            data: [res.data.data[9].count,res.data.data[8].count,res.data.data[7].count,res.data.data[6].count,res.data.data[5].count,res.data.data[4].count,res.data.data[3].count,res.data.data[2].count,res.data.data[1].count,res.data.data[0].count]
                         }
                     ]
                 });

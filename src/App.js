@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Table, Card, Form, Input, Button, Tabs} from 'antd';
+import {Button, Card, Form, Input, Table, Tabs,Tooltip,Icon} from 'antd';
 
 import Tab3 from './tab3';
 import Tab4 from './tab4';
@@ -17,7 +17,10 @@ const FormItem = Form.Item;
 const {TextArea} = Input;
 const TabPane = Tabs.TabPane;
 
+
 class App extends Component {
+
+
     constructor(props) {
         super(props);
         this.state = {
@@ -189,10 +192,14 @@ class App extends Component {
     render() {
 
         const {getFieldDecorator} = this.props.form;
-        const columns = [{
+
+        const columns = [
+
+            {
             title: '标题',
             dataIndex: 'title',
             key: 'title',
+
         }, {
             title: '作者',
             dataIndex: 'author',
@@ -224,14 +231,14 @@ class App extends Component {
         const extraSearch1 = () => (
             <div>
                 <Form layout="inline" onSubmit={this.handleSubmit}>
-                    <FormItem>
+                    <FormItem >
                         {getFieldDecorator('queryStr')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input style={{width:'900px' }} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem>
                         <Button type="primary" htmlType="submit">
-                            搜索
+                            全文搜索
                         </Button>
                     </FormItem>
                 </Form>
@@ -243,37 +250,37 @@ class App extends Component {
                 <Form layout="inline" onSubmit={this.handleSubmit2}>
                     <FormItem label="标题">
                         {getFieldDecorator('title')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem label="作者">
                         {getFieldDecorator('author')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem label="老师">
                         {getFieldDecorator('teacher')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem label="学校">
                         {getFieldDecorator('university')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem label="专业类型">
                         {getFieldDecorator('type')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem label="摘要">
                         {getFieldDecorator('introduction')(
-                            <TextArea style={{width: '300px'}} placeholder="请输入搜索内容"/>
+                            <TextArea style={{width: '280px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem>
                         <Button type="primary" htmlType="submit">
-                            搜索
+                            精准搜索
                         </Button>
                     </FormItem>
                 </Form>
@@ -299,9 +306,9 @@ class App extends Component {
 
 
         return (
-            <div>
+            <div >
 
-                <Tabs defaultActiveKey="1">
+                <Tabs defaultActiveKey="1" tabPosition="left" style={{color:'#00CC00',backgroundColor:'#B2DFEE'}} >
                     <TabPane tab="文献全文搜索" key="1">
                         <Card extra={extraSearch1()}>
                             <Table dataSource={this.state.dataSourse} columns={columns} pagination={pagination1}/>
@@ -347,5 +354,4 @@ class App extends Component {
         );
     }
 }
-
 export default App = Form.create()(App);

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Table, Card, Form, Input, Button, Tabs} from 'antd';
+import {Table, Card, Form, Input, Button, Tabs,Tooltip,Icon} from 'antd';
 
 
 const FormItem = Form.Item;
@@ -31,8 +31,8 @@ class Tab4 extends Component {
                         publicationNumber: item.publicationNumber,
                         proposer: item.proposer,
                         inventor: item.inventor,
-                        requestDate: new Date(item.requestDate).getFullYear()+'年'+(new Date(item.requestDate).getMonth()+1)+'月'+new Date(item.requestDate).getDate()+'日',
-                        publicationDate: new Date(item.publicationDate).getFullYear()+'年'+(new Date(item.publicationDate).getMonth()+1)+'月'+new Date(item.publicationDate).getDate()+'日'
+                        requestDate: new Date(item.requestDate).getFullYear() + '年' + (new Date(item.requestDate).getMonth() + 1) + '月' + new Date(item.requestDate).getDate() + '日',
+                        publicationDate: new Date(item.publicationDate).getFullYear() + '年' + (new Date(item.publicationDate).getMonth() + 1) + '月' + new Date(item.publicationDate).getDate() + '日'
                     })
                 });
                 this.setState({
@@ -63,8 +63,8 @@ class Tab4 extends Component {
                                 publicationNumber: item.publicationNumber,
                                 proposer: item.proposer,
                                 inventor: item.inventor,
-                                requestDate: new Date(item.requestDate).getFullYear()+'年'+(new Date(item.requestDate).getMonth()+1)+'月'+new Date(item.requestDate).getDate()+'日',
-                                publicationDate: new Date(item.publicationDate).getFullYear()+'年'+(new Date(item.publicationDate).getMonth()+1)+'月'+new Date(item.publicationDate).getDate()+'日'
+                                requestDate: new Date(item.requestDate).getFullYear() + '年' + (new Date(item.requestDate).getMonth() + 1) + '月' + new Date(item.requestDate).getDate() + '日',
+                                publicationDate: new Date(item.publicationDate).getFullYear() + '年' + (new Date(item.publicationDate).getMonth() + 1) + '月' + new Date(item.publicationDate).getDate() + '日'
                             })
                         });
                         _this.setState({
@@ -92,8 +92,8 @@ class Tab4 extends Component {
                         publicationNumber: item.publicationNumber,
                         proposer: item.proposer,
                         inventor: item.inventor,
-                        requestDate: new Date(item.requestDate).getFullYear()+'年'+(new Date(item.requestDate).getMonth()+1)+'月'+new Date(item.requestDate).getDate()+'日',
-                        publicationDate: new Date(item.publicationDate).getFullYear()+'年'+(new Date(item.publicationDate).getMonth()+1)+'月'+new Date(item.publicationDate).getDate()+'日'
+                        requestDate: new Date(item.requestDate).getFullYear() + '年' + (new Date(item.requestDate).getMonth() + 1) + '月' + new Date(item.requestDate).getDate() + '日',
+                        publicationDate: new Date(item.publicationDate).getFullYear() + '年' + (new Date(item.publicationDate).getMonth() + 1) + '月' + new Date(item.publicationDate).getDate() + '日'
                     })
                 });
                 _this.setState({
@@ -104,6 +104,16 @@ class Tab4 extends Component {
 
     render() {
         const {getFieldDecorator} = this.props.form;
+        const title = (
+            <span>
+    目的地
+    <Tooltip title="描述">
+      <Icon style={{marginLeft: '0.25em'}} type="question-circle"/>
+    </Tooltip>
+  </span>
+        );
+
+        <Table.Column title={title} dataIndex='introduction' key='introduction'></Table.Column>
         const columns = [{
             title: '标题',
             dataIndex: 'title',
@@ -144,45 +154,45 @@ class Tab4 extends Component {
         }];
         const extraSearch = () => (
             <div>
-                <Form layout="inline" onSubmit={this.handleSubmit}>
+                <Form className="ant-form-inline" layout="inline" onSubmit={this.handleSubmit}>
                     <FormItem label="标题">
                         {getFieldDecorator('title')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem label="申请号">
                         {getFieldDecorator('requestNumber')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem label="公开号">
                         {getFieldDecorator('publicationNumber')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem label="申请人">
                         {getFieldDecorator('proposer')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem label="发明人">
                         {getFieldDecorator('inventor')(
-                            <Input placeholder="请输入搜索内容"/>
-                        )}
-                    </FormItem>
-                    <FormItem label="摘要">
-                        {getFieldDecorator('introduction')(
-                            <TextArea style={{width: '300px'}} placeholder="请输入搜索内容"/>
+                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem label="类型">
                         {getFieldDecorator('type')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                        )}
+                    </FormItem>
+                    <FormItem label="摘要">
+                        {getFieldDecorator('introduction')(
+                            <TextArea style={{width: '1000px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem>
                         <Button type="primary" htmlType="submit">
-                            搜索
+                            精准搜索
                         </Button>
                     </FormItem>
                 </Form>

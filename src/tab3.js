@@ -147,12 +147,12 @@ class Tab3 extends Component {
                 <Form layout="inline" onSubmit={this.handleSubmit}>
                     <FormItem>
                         {getFieldDecorator('queryStr')(
-                            <Input placeholder="请输入搜索内容"/>
+                            <Input  style={{width:'900px' }} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem>
                         <Button type="primary" htmlType="submit">
-                            搜索
+                            全文搜索
                         </Button>
                     </FormItem>
                 </Form>

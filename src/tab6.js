@@ -26,7 +26,7 @@ export default class EchartsTest2 extends Component {
                         text: '硕士论文贡献前十专业',
 
                     },
-                    color: ['#CAE1FF'],
+                    color: ['#969696'],
                     tooltip : {
                         trigger: 'axis',
                         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
