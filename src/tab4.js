@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Table, Card, Form, Input, Button, Tabs,Tooltip,Icon} from 'antd';
+import {Button, Card, Form, Input, Table, Tabs} from 'antd';
 
 
 const FormItem = Form.Item;
@@ -104,16 +104,6 @@ class Tab4 extends Component {
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const title = (
-            <span>
-    目的地
-    <Tooltip title="描述">
-      <Icon style={{marginLeft: '0.25em'}} type="question-circle"/>
-    </Tooltip>
-  </span>
-        );
-
-        <Table.Column title={title} dataIndex='introduction' key='introduction'></Table.Column>
         const columns = [{
             title: '标题',
             dataIndex: 'title',
@@ -143,11 +133,6 @@ class Tab4 extends Component {
             dataIndex: 'inventor',
             key: 'inventor',
         }, {
-            title: '描述',
-            dataIndex: 'introduction',
-            key: 'introduction',
-            width: '30%'
-        }, {
             title: '类型',
             dataIndex: 'type',
             key: 'type',
@@ -155,39 +140,34 @@ class Tab4 extends Component {
         const extraSearch = () => (
             <div>
                 <Form className="ant-form-inline" layout="inline" onSubmit={this.handleSubmit}>
-                    <FormItem label="标题">
+                    <FormItem style={{width: '30%'}} label="标题">
                         {getFieldDecorator('title')(
-                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                            <Input  placeholder="请输入标题"/>
                         )}
                     </FormItem>
-                    <FormItem label="申请号">
+                    <FormItem style={{width: '30%'}} label="申请号">
                         {getFieldDecorator('requestNumber')(
-                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                            <Input  placeholder="请输入申请号"/>
                         )}
                     </FormItem>
-                    <FormItem label="公开号">
+                    <FormItem style={{width: '30%'}} label="公开号">
                         {getFieldDecorator('publicationNumber')(
-                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                            <Input  placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
-                    <FormItem label="申请人">
+                    <FormItem style={{width: '30%'}} label="申请人">
                         {getFieldDecorator('proposer')(
-                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                            <Input  placeholder="请输入申请人"/>
                         )}
                     </FormItem>
-                    <FormItem label="发明人">
+                    <FormItem style={{width: '30%'}} label="发明人">
                         {getFieldDecorator('inventor')(
-                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                            <Input  placeholder="请输入发明人"/>
                         )}
                     </FormItem>
-                    <FormItem label="类型">
+                    <FormItem style={{width: '30%'}} label="类型">
                         {getFieldDecorator('type')(
-                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
-                        )}
-                    </FormItem>
-                    <FormItem label="摘要">
-                        {getFieldDecorator('introduction')(
-                            <TextArea style={{width: '1000px'}} placeholder="请输入搜索内容"/>
+                            <Input  placeholder="请输入类型"/>
                         )}
                     </FormItem>
                     <FormItem>
@@ -209,7 +189,7 @@ class Tab4 extends Component {
         return (
             <div>
                 <Card extra={extraSearch()}>
-                    <Table dataSource={this.state.dataSourse} columns={columns} pagination={pagination}/>
+                    <Table dataSource={this.state.dataSourse} expandedRowRender={record => <p style={{ margin: 0 }}>{record.introduction}</p>} columns={columns} pagination={pagination}/>
                 </Card>
             </div>
         )

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Button, Card, Form, Input, Table, Tabs,Tooltip,Icon} from 'antd';
+import {Button, Card, Form, Input, Table, Tabs} from 'antd';
 
 import Tab3 from './tab3';
 import Tab4 from './tab4';
@@ -12,6 +12,17 @@ import EchartsTest5 from "./tab9";
 import EchartsTest6 from "./tab10";
 import EchartsTest7 from "./tab11";
 import EchartsTest8 from "./tab12";
+import BookSearch1 from "./tab13";
+import BookSearch2 from "./tab14";
+import PeriodicalSearch1 from "./tab15";
+import PeriodicalSearch2 from "./tab16";
+import BookTagAgg from "./tab17";
+import BookPublishAgg from "./tab18";
+import PeriodicalPublishAgg from "./tab19";
+import BookDateAgg from "./tab20";
+import PeriodicalDateAgg from "./tab21";
+import BookTagAggDetail from "./tab22";
+import BookPublishAggDetail from "./tab23";
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
@@ -205,11 +216,6 @@ class App extends Component {
             dataIndex: 'author',
             key: 'author',
         }, {
-            title: '摘要',
-            dataIndex: 'introduction',
-            key: 'introduction',
-            width: "40%"
-        }, {
             title: '老师',
             dataIndex: 'teacher',
             key: 'teacher',
@@ -248,34 +254,34 @@ class App extends Component {
         const extraSearch2 = () => (
             <div>
                 <Form layout="inline" onSubmit={this.handleSubmit2}>
-                    <FormItem label="标题">
+                    <FormItem style={{width: '30%'}} label="标题">
                         {getFieldDecorator('title')(
-                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                            <Input  placeholder="请输入标题"/>
                         )}
                     </FormItem>
-                    <FormItem label="作者">
+                    <FormItem style={{width: '30%'}} label="作者">
                         {getFieldDecorator('author')(
-                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                            <Input  placeholder="请输入作者"/>
                         )}
                     </FormItem>
-                    <FormItem label="老师">
+                    <FormItem style={{width: '30%'}} label="老师">
                         {getFieldDecorator('teacher')(
-                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                            <Input placeholder="请输入老师"/>
                         )}
                     </FormItem>
-                    <FormItem label="学校">
+                    <FormItem style={{width: '30%'}} label="学校">
                         {getFieldDecorator('university')(
-                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                            <Input  placeholder="请输入学校"/>
                         )}
                     </FormItem>
-                    <FormItem label="专业类型">
+                    <FormItem style={{width: '30%'}} label="专业类型">
                         {getFieldDecorator('type')(
-                            <Input style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                            <Input  placeholder="请输入专业类型"/>
                         )}
                     </FormItem>
-                    <FormItem label="摘要">
+                    <FormItem style={{width: '30%'}} label="摘要">
                         {getFieldDecorator('introduction')(
-                            <TextArea style={{width: '280px'}} placeholder="请输入搜索内容"/>
+                            <TextArea  placeholder="请输入摘要"/>
                         )}
                     </FormItem>
                     <FormItem>
@@ -308,15 +314,16 @@ class App extends Component {
         return (
             <div >
 
-                <Tabs defaultActiveKey="1" tabPosition="left" style={{color:'#00CC00',backgroundColor:'#B2DFEE'}} >
+                <Tabs defaultActiveKey="1" tabPosition="left" style={{color:'#00CC00'}} >
                     <TabPane tab="文献全文搜索" key="1">
                         <Card extra={extraSearch1()}>
-                            <Table dataSource={this.state.dataSourse} columns={columns} pagination={pagination1}/>
+                            <Table dataSource={this.state.dataSourse}
+                                   expandedRowRender={record => <p style={{ margin: 0 }}>{record.introduction}</p>} columns={columns} pagination={pagination1}/>
                         </Card>
                     </TabPane>
                     <TabPane tab="文献精准搜索" key="2">
                         <Card extra={extraSearch2()}>
-                            <Table dataSource={this.state.dataSourse2} columns={columns} pagination={pagination2}/>
+                            <Table dataSource={this.state.dataSourse2} expandedRowRender={record => <p style={{ margin: 0 }}>{record.introduction}</p>} columns={columns} pagination={pagination2}/>
                         </Card>
                     </TabPane>
                     <TabPane tab="专利全文搜索" key="3">
@@ -324,6 +331,18 @@ class App extends Component {
                     </TabPane>
                     <TabPane tab="专利精准搜索" key="4">
                         <Tab4/>
+                    </TabPane>
+                    <TabPane tab="图书全文搜索" key="13">
+                        <BookSearch1/>
+                    </TabPane>
+                    <TabPane tab="图书精准搜索" key="14">
+                        <BookSearch2/>
+                    </TabPane>
+                    <TabPane tab="期刊全文搜索" key="15">
+                        <PeriodicalSearch1/>
+                    </TabPane>
+                    <TabPane tab="期刊精准搜索" key="16">
+                        <PeriodicalSearch2/>
                     </TabPane>
                     <TabPane tab="硕士论文贡献前十高校" key="5">
                         <EchartsTest/>
@@ -349,6 +368,28 @@ class App extends Component {
                     <TabPane tab="专利公开年份折线条状图" key="12">
                         <EchartsTest8/>
                     </TabPane>
+                    <TabPane tab="同标签书籍数量统计" key="17">
+                        <BookTagAgg/>
+                    </TabPane>
+                    <TabPane tab="同出版社书籍数量统计" key="18">
+                        <BookPublishAgg/>
+                    </TabPane>
+                    <TabPane tab="同提供方期刊数量统计" key="19">
+                        <PeriodicalPublishAgg/>
+                    </TabPane>
+                    <TabPane tab="图书出版年份折线条状图" key="20">
+                        <BookDateAgg/>
+                    </TabPane>
+                    <TabPane tab="期刊出版月份折线条状图" key="21">
+                        <PeriodicalDateAgg/>
+                    </TabPane>
+                    <TabPane tab="标签书籍详情" key="22">
+                        <BookTagAggDetail/>
+                    </TabPane>
+                    <TabPane tab="出版社书籍详情" key="23">
+                        <BookPublishAggDetail/>
+                    </TabPane>
+
                 </Tabs>
             </div>
         );

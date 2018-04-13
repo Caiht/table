@@ -7,7 +7,7 @@ const FormItem = Form.Item;
 const {TextArea} = Input;
 const TabPane = Tabs.TabPane;
 
-class Tab3 extends Component {
+class PeriodicalSearch1 extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,21 +18,18 @@ class Tab3 extends Component {
     }
 
     componentDidMount() {
-        axios.get('patent/SearchByQueryStr')
-                .then((res) => {
+        axios.get('periodical/SearchByQueryStr')
+            .then((res) => {
                 let sourse = [];
                 res.data.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,
-                        introduction: item.introduction,
+                        author: item.author,
+                        publisher: item.publisher,
+                        date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
                         type: item.type,
-                        requestNumber: item.requestNumber,
-                        publicationNumber: item.publicationNumber,
-                        proposer: item.proposer,
-                        inventor: item.inventor,
-                        requestDate: new Date(item.requestDate).getFullYear()+'年'+(new Date(item.requestDate).getMonth()+1)+'月'+new Date(item.requestDate).getDate()+'日',
-                        publicationDate: new Date(item.publicationDate).getFullYear()+'年'+(new Date(item.publicationDate).getMonth()+1)+'月'+new Date(item.publicationDate).getDate()+'日'
+                        introduction: item.introduction
                     })
                 });
                 this.setState({
@@ -50,21 +47,18 @@ class Tab3 extends Component {
                 _this.setState({
                     tab: value
                 });
-                axios.get(`patent/SearchByQueryStr?queryStr=${value.queryStr}`)
+                axios.get(`periodical/SearchByQueryStr?queryStr=${value.queryStr}`)
                     .then(res => {
                         let sourse = [];
                         res.data.data.list.map(item => {
                             sourse.push({
                                 key: item.id,
                                 title: item.title,
-                                introduction: item.introduction,
+                                author: item.author,
+                                publisher: item.publisher,
+                                date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
                                 type: item.type,
-                                requestNumber: item.requestNumber,
-                                publicationNumber: item.publicationNumber,
-                                proposer: item.proposer,
-                                inventor: item.inventor,
-                                requestDate: new Date(item.requestDate).getFullYear()+'年'+(new Date(item.requestDate).getMonth()+1)+'月'+new Date(item.requestDate).getDate()+'日',
-                                publicationDate: new Date(item.publicationDate).getFullYear()+'年'+(new Date(item.publicationDate).getMonth()+1)+'月'+new Date(item.publicationDate).getDate()+'日'
+                                introduction: item.introduction
                             })
                         });
                         _this.setState({
@@ -79,21 +73,18 @@ class Tab3 extends Component {
     handleChangePage(page, pageSize) {
         console.log(page, pageSize);
         const _this = this;
-        axios.get(`patent/SearchByQueryStr?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
+        axios.get(`periodical/SearchByQueryStr?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,
-                        introduction: item.introduction,
+                        author: item.author,
+                        publisher: item.publisher,
+                        date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
                         type: item.type,
-                        requestNumber: item.requestNumber,
-                        publicationNumber: item.publicationNumber,
-                        proposer: item.proposer,
-                        inventor: item.inventor,
-                        requestDate: new Date(item.requestDate).getFullYear()+'年'+(new Date(item.requestDate).getMonth()+1)+'月'+new Date(item.requestDate).getDate()+'日',
-                        publicationDate: new Date(item.publicationDate).getFullYear()+'年'+(new Date(item.publicationDate).getMonth()+1)+'月'+new Date(item.publicationDate).getDate()+'日'
+                        introduction: item.introduction
                     })
                 });
                 _this.setState({
@@ -109,40 +100,28 @@ class Tab3 extends Component {
             dataIndex: 'title',
             key: 'title',
         }, {
-            title: '申请号',
-            dataIndex: 'requestNumber',
-            key: 'requestNumber',
+            title: '作者',
+            dataIndex: 'author',
+            key: 'author',
         }, {
-            title: '申请日',
-            dataIndex: 'requestDate',
-            key: 'requestDate',
-        }, {
-            title: '公开号',
-            dataIndex: 'publicationNumber',
-            key: 'publicationNumber',
-        }, {
-            title: '公开日',
-            dataIndex: 'publicationDate',
-            key: 'publicationDate',
-        }, {
-            title: '申请人',
-            dataIndex: 'proposer',
-            key: 'proposer',
-        }, {
-            title: '发明人',
-            dataIndex: 'inventor',
-            key: 'inventor',
+            title: '提供方',
+            dataIndex: 'publisher',
+            key: 'publisher',
         }, {
             title: '类型',
             dataIndex: 'type',
             key: 'type',
+        }, {
+            title: '发布时间',
+            dataIndex: 'date',
+            key: 'date',
         }];
         const extraSearch = () => (
             <div>
                 <Form layout="inline" onSubmit={this.handleSubmit}>
                     <FormItem>
                         {getFieldDecorator('queryStr')(
-                            <Input  style={{width:'900px' }} placeholder="请输入搜索内容"/>
+                            <Input style={{width: '900px'}} placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem>
@@ -164,11 +143,13 @@ class Tab3 extends Component {
         return (
             <div>
                 <Card extra={extraSearch()}>
-                    <Table dataSource={this.state.dataSourse} columns={columns} expandedRowRender={record => <p style={{ margin: 0 }}>{record.introduction}</p>} pagination={pagination}/>
+                    <Table dataSource={this.state.dataSourse} columns={columns}
+                           expandedRowRender={record => <p style={{margin: 0}}>{record.introduction}</p>}
+                           pagination={pagination}/>
                 </Card>
             </div>
         )
     }
 }
 
-export default Tab3 = Form.create()(Tab3)
+export default PeriodicalSearch1 = Form.create()(PeriodicalSearch1)
