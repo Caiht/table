@@ -20,7 +20,7 @@ export default class PeriodicalDateAgg extends Component {
                 let sourse1 = [];
                 let sourse2 = [];
                 console.log(res);
-                res.data.data.map(item => {
+                res.data.map(item => {
                     sourse1.push(item.commonId);
                     sourse2.push(item.count);
                 });

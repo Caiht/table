@@ -21,7 +21,7 @@ class BookSearch1 extends Component {
         axios.get('book/SearchByQueryStr')
             .then((res) => {
                 let sourse = [];
-                res.data.data.list.map(item => {
+                res.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,
@@ -39,7 +39,7 @@ class BookSearch1 extends Component {
                 });
                 this.setState({
                     dataSourse: sourse,
-                    total: res.data.data.total
+                    total: res.data.total
                 })
             });
     };
@@ -55,7 +55,7 @@ class BookSearch1 extends Component {
                 axios.get(`book/SearchByQueryStr?queryStr=${value.queryStr}`)
                     .then(res => {
                         let sourse = [];
-                        res.data.data.list.map(item => {
+                        res.data.list.map(item => {
                             sourse.push({
                                 key: item.id,
                                 title: item.title,
@@ -72,7 +72,7 @@ class BookSearch1 extends Component {
                         });
                         _this.setState({
                             dataSourse: sourse,
-                            total: res.data.data.total
+                            total: res.data.total
                         })
                     })
             }
@@ -85,7 +85,7 @@ class BookSearch1 extends Component {
         axios.get(`book/SearchByQueryStr?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
-                res.data.data.list.map(item => {
+                res.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,

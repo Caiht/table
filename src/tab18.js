@@ -20,13 +20,13 @@ export default class BookPublishAgg extends Component {
                 let sourse1 = [];
                 let sourse2 = [];
                 console.log(res);
-                res.data.data.map(item => {
+                res.data.map(item => {
                     sourse1.push(item.title);
                     sourse2.push({name:item.title,value:item.count});
                 });
                 let sourse3={};
                 for (var i = 0; i < 444; i++) {
-                    sourse3[res.data.data[i].title]=i<6;
+                    sourse3[res.data[i].title]=i<6;
                 }
                 // 绘制图表
                 myChart.setOption({

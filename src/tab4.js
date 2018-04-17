@@ -21,7 +21,7 @@ class Tab4 extends Component {
         axios.get('patent/SearchByParams')
             .then((res) => {
                 let sourse = [];
-                res.data.data.list.map(item => {
+                res.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,
@@ -37,7 +37,7 @@ class Tab4 extends Component {
                 });
                 this.setState({
                     dataSourse: sourse,
-                    total: res.data.data.total
+                    total: res.data.total
                 })
             });
     };
@@ -53,7 +53,7 @@ class Tab4 extends Component {
                 axios.get(`patent/SearchByParams?title=${value.title}&requestNumber=${value.requestNumber}&publicationNumber=${value.publicationNumber}&proposer=${value.proposer}&inventor=${value.inventor}&introduction=${value.introduction}&type=${value.type}`)
                     .then(res => {
                         let sourse = [];
-                        res.data.data.list.map(item => {
+                        res.data.list.map(item => {
                             sourse.push({
                                 key: item.id,
                                 title: item.title,
@@ -69,7 +69,7 @@ class Tab4 extends Component {
                         });
                         _this.setState({
                             dataSourse: sourse,
-                            total: res.data.data.total
+                            total: res.data.total
                         })
                     })
             }
@@ -82,7 +82,7 @@ class Tab4 extends Component {
         axios.get(`patent/SearchByParams?title=${this.state.tab.title}&requestNumber=${this.state.tab.requestNumber}&publicationNumber=${this.state.tab.publicationNumber}&proposer=${this.state.tab.proposer}&inventor=${this.state.tab.inventor}&introduction=${this.state.tab.introduction}&type=${this.state.tab.type}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
-                res.data.data.list.map(item => {
+                res.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,

@@ -16,7 +16,7 @@ export default class EchartsTest extends Component {
                 let myChart = echarts.init(document.getElementById('main'));
                 let sourse1 = [];
                 let sourse2 = [];
-                res.data.data.map(item => {
+                res.data.map(item => {
                     sourse1.push(item.commonId);
                     sourse2.push(item.count);
                 });
@@ -42,7 +42,7 @@ export default class EchartsTest extends Component {
                     xAxis : [
                         {
                             type : 'category',
-                            data: [res.data.data[1].commonId,res.data.data[2].commonId,res.data.data[3].commonId,res.data.data[4].commonId,res.data.data[5].commonId,res.data.data[6].commonId,res.data.data[7].commonId,res.data.data[8].commonId,res.data.data[9].commonId,res.data.data[10].commonId],
+                            data: [res.data[1].commonId,res.data[2].commonId,res.data[3].commonId,res.data[4].commonId,res.data[5].commonId,res.data[6].commonId,res.data[7].commonId,res.data[8].commonId,res.data[9].commonId,res.data[10].commonId],
                             axisTick: {
                                 alignWithLabel: true
                             },
@@ -62,7 +62,7 @@ export default class EchartsTest extends Component {
                             name:'论文总数',
                             type:'bar',
                             barWidth: '60%',
-                            data: [res.data.data[1].count,res.data.data[2].count,res.data.data[3].count,res.data.data[4].count,res.data.data[5].count,res.data.data[6].count,res.data.data[7].count,res.data.data[8].count,res.data.data[9].count,res.data.data[10].count]
+                            data: [res.data[1].count,res.data[2].count,res.data[3].count,res.data[4].count,res.data[5].count,res.data[6].count,res.data[7].count,res.data[8].count,res.data[9].count,res.data[10].count]
                         }
                     ]
                 });

@@ -49,7 +49,7 @@ class App extends Component {
         axios.get('article/cnki/SearchByQueryStr')
             .then((res) => {
                 let sourse = [];
-                res.data.data.list.map(item => {
+                res.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,
@@ -63,13 +63,13 @@ class App extends Component {
                 });
                 this.setState({
                     dataSourse: sourse,
-                    total: res.data.data.total
+                    total: res.data.total
                 })
             });
         axios.get('article/cnki/SearchByParams')
             .then((res) => {
                 let sourse = [];
-                res.data.data.list.map(item => {
+                res.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,
@@ -83,7 +83,7 @@ class App extends Component {
                 });
                 this.setState({
                     dataSourse2: sourse,
-                    total2: res.data.data.total
+                    total2: res.data.total
                 })
             })
     };
@@ -99,7 +99,7 @@ class App extends Component {
                 axios.get(`article/cnki/SearchByQueryStr?queryStr=${value.queryStr}`)
                     .then(res => {
                         let sourse = [];
-                        res.data.data.list.map(item => {
+                        res.data.list.map(item => {
                             sourse.push({
                                 key: item.id,
                                 title: item.title,
@@ -113,7 +113,7 @@ class App extends Component {
                         });
                         _this.setState({
                             dataSourse: sourse,
-                            total: res.data.data.total
+                            total: res.data.total
                         })
                     })
             }
@@ -131,7 +131,7 @@ class App extends Component {
                 axios.get(`article/cnki/SearchByParams?title=${value.title}&author=${value.author}&introduction=${value.introduction}&teacher=${value.teacher}&university=${value.university}&type=${value.type}`)
                     .then(res => {
                         let sourse = [];
-                        res.data.data.list.map(item => {
+                        res.data.list.map(item => {
                             sourse.push({
                                 key: item.id,
                                 title: item.title,
@@ -145,7 +145,7 @@ class App extends Component {
                         });
                         _this.setState({
                             dataSourse2: sourse,
-                            total2: res.data.data.total
+                            total2: res.data.total
                         })
                     })
             }
@@ -158,7 +158,7 @@ class App extends Component {
         axios.get(`article/cnki/SearchByQueryStr?queryStr=${this.state.tab1.queryStr}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
-                res.data.data.list.map(item => {
+                res.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,
@@ -182,7 +182,7 @@ class App extends Component {
         axios.get(`article/cnki/SearchByParams?title=${this.state.tab2.title}&author=${this.state.tab2.author}&introduction=${this.state.tab2.introduction}&teacher=${this.state.tab2.teacher}&university=${this.state.tab2.university}&type=${this.state.tab2.type}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
-                res.data.data.list.map(item => {
+                res.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,

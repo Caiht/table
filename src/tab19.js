@@ -21,8 +21,8 @@ export default class PeriodicalPublishAgg extends Component {
                 let sourse2 = [];
                 console.log(res);
                 for (var i = 0; i < 8; i++) {
-                    sourse1.push(res.data.data[i].commonId);
-                    sourse2.push({name:res.data.data[i].commonId,value:res.data.data[i].count});
+                    sourse1.push(res.data[i].commonId);
+                    sourse2.push({name:res.data[i].commonId,value:res.data[i].count});
                 }
                 // 绘制图表
                 myChart.setOption({

@@ -25,7 +25,7 @@ export default class BookTagAggDetail extends Component {
                 let sourse3 = [];
                 let sourse4 = [];
                 console.log(res);
-                res.data.data.map(item => {
+                res.data.map(item => {
                     sourse1.push(item.title);
                     sourse2.push(item.count);
                     sourse3.push(item.priceSum);
