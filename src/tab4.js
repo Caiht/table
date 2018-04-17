@@ -18,7 +18,7 @@ class Tab4 extends Component {
     }
 
     componentDidMount() {
-        axios.get('patent/SearchByParams')
+        axios.get('patent/search/params')
             .then((res) => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -50,7 +50,7 @@ class Tab4 extends Component {
                 _this.setState({
                     tab: value
                 });
-                axios.get(`patent/SearchByParams?title=${value.title}&requestNumber=${value.requestNumber}&publicationNumber=${value.publicationNumber}&proposer=${value.proposer}&inventor=${value.inventor}&introduction=${value.introduction}&type=${value.type}`)
+                axios.get(`patent/search/params?title=${value.title}&requestNumber=${value.requestNumber}&publicationNumber=${value.publicationNumber}&proposer=${value.proposer}&inventor=${value.inventor}&introduction=${value.introduction}&type=${value.type}`)
                     .then(res => {
                         let sourse = [];
                         res.data.list.map(item => {
@@ -79,7 +79,7 @@ class Tab4 extends Component {
     handleChangePage(page, pageSize) {
         console.log(page, pageSize);
         const _this = this;
-        axios.get(`patent/SearchByParams?title=${this.state.tab.title}&requestNumber=${this.state.tab.requestNumber}&publicationNumber=${this.state.tab.publicationNumber}&proposer=${this.state.tab.proposer}&inventor=${this.state.tab.inventor}&introduction=${this.state.tab.introduction}&type=${this.state.tab.type}&pageNum=${page}`)
+        axios.get(`patent/search/params?title=${this.state.tab.title}&requestNumber=${this.state.tab.requestNumber}&publicationNumber=${this.state.tab.publicationNumber}&proposer=${this.state.tab.proposer}&inventor=${this.state.tab.inventor}&introduction=${this.state.tab.introduction}&type=${this.state.tab.type}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {

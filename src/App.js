@@ -46,7 +46,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        axios.get('article/cnki/SearchByQueryStr')
+        axios.get('article/cnki/search/all')
             .then((res) => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -66,7 +66,7 @@ class App extends Component {
                     total: res.data.total
                 })
             });
-        axios.get('article/cnki/SearchByParams')
+        axios.get('article/cnki/search/params')
             .then((res) => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -96,7 +96,7 @@ class App extends Component {
                 _this.setState({
                     tab1: value
                 });
-                axios.get(`article/cnki/SearchByQueryStr?queryStr=${value.queryStr}`)
+                axios.get(`article/cnki/search/all?queryStr=${value.queryStr}`)
                     .then(res => {
                         let sourse = [];
                         res.data.list.map(item => {
@@ -128,7 +128,7 @@ class App extends Component {
                 _this.setState({
                     tab2: value
                 });
-                axios.get(`article/cnki/SearchByParams?title=${value.title}&author=${value.author}&introduction=${value.introduction}&teacher=${value.teacher}&university=${value.university}&type=${value.type}`)
+                axios.get(`article/cnki/search/params?title=${value.title}&author=${value.author}&introduction=${value.introduction}&teacher=${value.teacher}&university=${value.university}&type=${value.type}`)
                     .then(res => {
                         let sourse = [];
                         res.data.list.map(item => {
@@ -155,7 +155,7 @@ class App extends Component {
     handleChangePage(page, pageSize) {
         console.log(page, pageSize);
         const _this = this;
-        axios.get(`article/cnki/SearchByQueryStr?queryStr=${this.state.tab1.queryStr}&pageNum=${page}`)
+        axios.get(`article/cnki/search/all?queryStr=${this.state.tab1.queryStr}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -179,7 +179,7 @@ class App extends Component {
     handleChangePage2(page, pageSize) {
         console.log(page, pageSize);
         const _this = this;
-        axios.get(`article/cnki/SearchByParams?title=${this.state.tab2.title}&author=${this.state.tab2.author}&introduction=${this.state.tab2.introduction}&teacher=${this.state.tab2.teacher}&university=${this.state.tab2.university}&type=${this.state.tab2.type}&pageNum=${page}`)
+        axios.get(`article/cnki/search/params?title=${this.state.tab2.title}&author=${this.state.tab2.author}&introduction=${this.state.tab2.introduction}&teacher=${this.state.tab2.teacher}&university=${this.state.tab2.university}&type=${this.state.tab2.type}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {

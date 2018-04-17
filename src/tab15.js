@@ -18,7 +18,7 @@ class PeriodicalSearch1 extends Component {
     }
 
     componentDidMount() {
-        axios.get('periodical/SearchByQueryStr')
+        axios.get('periodical/search/all')
             .then((res) => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -47,7 +47,7 @@ class PeriodicalSearch1 extends Component {
                 _this.setState({
                     tab: value
                 });
-                axios.get(`periodical/SearchByQueryStr?queryStr=${value.queryStr}`)
+                axios.get(`periodical/search/all?queryStr=${value.queryStr}`)
                     .then(res => {
                         let sourse = [];
                         res.data.list.map(item => {
@@ -73,7 +73,7 @@ class PeriodicalSearch1 extends Component {
     handleChangePage(page, pageSize) {
         console.log(page, pageSize);
         const _this = this;
-        axios.get(`periodical/SearchByQueryStr?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
+        axios.get(`periodical/search/all?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {

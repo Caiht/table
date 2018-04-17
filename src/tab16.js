@@ -18,7 +18,7 @@ class PeriodicalSearch2 extends Component {
     }
 
     componentDidMount() {
-        axios.get('periodical/SearchByParams')
+        axios.get('periodical/search/params')
             .then((res) => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -48,7 +48,7 @@ class PeriodicalSearch2 extends Component {
                 _this.setState({
                     tab: value
                 });
-                axios.get(`periodical/SearchByParams?title=${value.title}&author=${value.author}&publish=${value.publish}&type=${value.type}&introduction=${value.introduction}`)
+                axios.get(`periodical/search/params?title=${value.title}&author=${value.author}&publish=${value.publish}&type=${value.type}&introduction=${value.introduction}`)
                     .then(res => {
                         let sourse = [];
                         res.data.list.map(item => {
@@ -74,7 +74,7 @@ class PeriodicalSearch2 extends Component {
     handleChangePage(page, pageSize) {
         console.log(page, pageSize);
         const _this = this;
-        axios.get(`periodical/SearchByParams?title=${this.state.tab.title}&author=${this.state.tab.author}&publish=${this.state.tab.publish}&type=${this.state.tab.type}&introduction=${this.state.tab.introduction}&pageNum=${page}`)
+        axios.get(`periodical/search/params?title=${this.state.tab.title}&author=${this.state.tab.author}&publish=${this.state.tab.publish}&type=${this.state.tab.type}&introduction=${this.state.tab.introduction}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {

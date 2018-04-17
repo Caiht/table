@@ -18,7 +18,7 @@ class Tab3 extends Component {
     }
 
     componentDidMount() {
-        axios.get('patent/SearchByQueryStr')
+        axios.get('patent/search/all')
                 .then((res) => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -50,7 +50,7 @@ class Tab3 extends Component {
                 _this.setState({
                     tab: value
                 });
-                axios.get(`patent/SearchByQueryStr?queryStr=${value.queryStr}`)
+                axios.get(`patent/search/all?queryStr=${value.queryStr}`)
                     .then(res => {
                         let sourse = [];
                         res.data.list.map(item => {
@@ -79,7 +79,7 @@ class Tab3 extends Component {
     handleChangePage(page, pageSize) {
         console.log(page, pageSize);
         const _this = this;
-        axios.get(`patent/SearchByQueryStr?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
+        axios.get(`patent/search/all?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {
