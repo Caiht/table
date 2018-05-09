@@ -92,7 +92,7 @@ class BookSearch1 extends Component {
             pageSize
         });
         const _this = this;
-        axios.get(`book/search/all?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
+        axios.get(`http://localhost:8081/api/book/search/all?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -119,7 +119,6 @@ class BookSearch1 extends Component {
 
     render() {
         console.log(this.state.editData);
-        const {editData} = this.state;
         const {getFieldDecorator} = this.props.form;
         const columns = [{
             title: '标题',
