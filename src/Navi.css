@@ -1,0 +1,38 @@
+.App-logo {
+    animation: App-logo-spin infinite 10s linear;
+    height: 60px;
+}
+
+@keyframes App-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.logo {
+    height: 32px;
+    border-radius: 6px;
+    margin: 16px;
+}
+
+.logo img{
+    height: 25px;
+    width: 25px;
+    margin: 11px;
+}
+
+.logo span{
+    color: #ffffff;
+    font-size: 17px;
+    vertical-align:middle;
+}
+
+.ant-layout-sider-collapsed .anticon {
+    font-size: 16px;
+}
+
+.ant-layout-sider-collapsed .nav-text {
+    display: none;
+}
+.ant-menu-item {
+    padding-left: 30px !important;
+}

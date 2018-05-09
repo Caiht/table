@@ -11,23 +11,27 @@ import 'echarts/lib/component/legend';
 import 'echarts/lib/component/legendScroll';
 
 
-export default class PeriodicalPublishAgg extends Component {
+export default class BookTagAgg extends Component {
     componentDidMount() {
-        axios.get('periodical/agg/type')
+        axios.get('http://localhost:8081/api/book/agg/tag')
             .then((res) => {
                 // 基于准备好的dom，初始化echarts实例
-                let myChart = echarts.init(document.getElementById('periodicalPublishAgg'));
+                let myChart = echarts.init(document.getElementById('bookTagAgg'));
                 let sourse1 = [];
                 let sourse2 = [];
                 console.log(res);
-                for (var i = 0; i < 8; i++) {
-                    sourse1.push(res.data[i].commonId);
-                    sourse2.push({name:res.data[i].commonId,value:res.data[i].count});
+                res.data.map(item => {
+                    sourse1.push(item.title);
+                    sourse2.push({name:item.title,value:item.count});
+                });
+                let sourse3={};
+                for (var i = 0; i < 145; i++) {
+                    sourse3[res.data[i].title]=i<6;
                 }
                 // 绘制图表
                 myChart.setOption({
                     title : {
-                        text: '同提供方期刊数量统计',
+                        text: '同标签书籍数量统计',
                         subtext: '来源网络',
                         x:'center'
                     },
@@ -42,7 +46,7 @@ export default class PeriodicalPublishAgg extends Component {
                         top: 20,
                         bottom: 20,
                         data: sourse1,
-
+                        selected: sourse3
                     },
                     series : [
                         {
@@ -66,7 +70,7 @@ export default class PeriodicalPublishAgg extends Component {
     }
     render() {
         return (
-            <div id="periodicalPublishAgg" style={{ width: 1000, height: 1000 }}></div>
+            <div id="bookTagAgg" style={{ width: 1000, height: 1000 }}></div>
         );
     }
 }

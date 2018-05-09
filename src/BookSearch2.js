@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Button, Card, Form, Input, Table, Tabs} from 'antd';
+import {Button, Card, Form, Input, Table, Tabs, Divider} from 'antd';
 
 
 const FormItem = Form.Item;
@@ -18,7 +18,7 @@ class BookSearch2 extends Component {
     }
 
     componentDidMount() {
-        axios.get('book/search/params')
+        axios.get('http://localhost:8081/api/book/search/params')
             .then((res) => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -29,7 +29,7 @@ class BookSearch2 extends Component {
                         author: item.author,
                         price: item.price,
                         person: item.person,
-                        date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
+                        date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate(),
                         publish: item.publish,
                         tag: item.tag,
                         introduction: item.introduction,
@@ -52,7 +52,7 @@ class BookSearch2 extends Component {
                 _this.setState({
                     tab: value
                 });
-                axios.get(`book/search/params?title=${value.title}&author=${value.author}&publish=${value.publish}&gtScore=${value.gtScore}&ltScore=${value.ltScore}&tag=${value.tag}&introduction=${value.introduction}&gtPrice=${value.gtPrice}&ltPrice=${value.ltPrice}&isbn=${value.isbn}`)
+                axios.get(`http://localhost:8081/api/book/search/params?title=${value.title}&author=${value.author}&publish=${value.publish}&gtScore=${value.gtScore}&ltScore=${value.ltScore}&tag=${value.tag}&introduction=${value.introduction}&gtPrice=${value.gtPrice}&ltPrice=${value.ltPrice}&isbn=${value.isbn}`)
                     .then(res => {
                         let sourse = [];
                         res.data.list.map(item => {
@@ -63,7 +63,7 @@ class BookSearch2 extends Component {
                                 author: item.author,
                                 price: item.price,
                                 person: item.person,
-                                date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
+                                date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate(),
                                 publish: item.publish,
                                 tag: item.tag,
                                 introduction: item.introduction,
@@ -82,7 +82,7 @@ class BookSearch2 extends Component {
     handleChangePage(page, pageSize) {
         console.log(page, pageSize);
         const _this = this;
-        axios.get(`book/search/params?title=${this.state.tab.title}&author=${this.state.tab.author}&publish=${this.state.tab.publish}&gtScore=${this.state.tab.gtScore}&ltScore=${this.state.tab.ltScore}&tag=${this.state.tab.tag}&introduction=${this.state.tab.introduction}&gtPrice=${this.state.tab.gtPrice}&ltPrice=${this.state.tab.ltPrice}&isbn=${this.state.tab.isbn}&pageNum=${page}`)
+        axios.get(`http://localhost:8081/api/book/search/params?title=${this.state.tab.title}&author=${this.state.tab.author}&publish=${this.state.tab.publish}&gtScore=${this.state.tab.gtScore}&ltScore=${this.state.tab.ltScore}&tag=${this.state.tab.tag}&introduction=${this.state.tab.introduction}&gtPrice=${this.state.tab.gtPrice}&ltPrice=${this.state.tab.ltPrice}&isbn=${this.state.tab.isbn}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -93,7 +93,7 @@ class BookSearch2 extends Component {
                         author: item.author,
                         price: item.price,
                         person: item.person,
-                        date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
+                        date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate(),
                         publish: item.publish,
                         tag: item.tag,
                         introduction: item.introduction,

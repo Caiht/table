@@ -1,24 +1,30 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Button, Card, Form, Input, Table, Tabs} from 'antd';
+import {Button, Card, Form, Input, Table, Tabs, Divider, Modal} from 'antd';
 
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
 const TabPane = Tabs.TabPane;
 
-class PeriodicalSearch2 extends Component {
+class ArticleSearchParams extends Component {
     constructor(props) {
         super(props);
         this.state = {
             tab: {},
             dataSourse: [],
-            total: null
+            total: null,
+            addModal: false,
+            editModal: false,
+            page: 1,
+            pageSize: 20,
+            editData: [],
+            id: null
         }
     }
 
     componentDidMount() {
-        axios.get('periodical/search/params')
+        axios.get('http://localhost:8081/api/article/cnki/search/params')
             .then((res) => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -26,18 +32,18 @@ class PeriodicalSearch2 extends Component {
                         key: item.id,
                         title: item.title,
                         author: item.author,
-                        publisher: item.publisher,
-                        date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
+                        introduction: item.introduction,
+                        teacher: item.teacher,
+                        university: item.university,
                         type: item.type,
-                        introduction: item.introduction
-
+                        date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate()
                     })
                 });
                 this.setState({
                     dataSourse: sourse,
                     total: res.data.total
                 })
-            });
+            })
     };
 
     handleSubmit = (e) => {
@@ -48,7 +54,7 @@ class PeriodicalSearch2 extends Component {
                 _this.setState({
                     tab: value
                 });
-                axios.get(`periodical/search/params?title=${value.title}&author=${value.author}&publish=${value.publish}&type=${value.type}&introduction=${value.introduction}`)
+                axios.get(`http://localhost:8081/api/article/cnki/search/params?title=${value.title}&author=${value.author}&introduction=${value.introduction}&teacher=${value.teacher}&university=${value.university}&type=${value.type}`)
                     .then(res => {
                         let sourse = [];
                         res.data.list.map(item => {
@@ -56,10 +62,11 @@ class PeriodicalSearch2 extends Component {
                                 key: item.id,
                                 title: item.title,
                                 author: item.author,
-                                publisher: item.publisher,
-                                date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
+                                introduction: item.introduction,
+                                teacher: item.teacher,
+                                university: item.university,
                                 type: item.type,
-                                introduction: item.introduction
+                                date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate()
                             })
                         });
                         _this.setState({
@@ -73,8 +80,12 @@ class PeriodicalSearch2 extends Component {
 
     handleChangePage(page, pageSize) {
         console.log(page, pageSize);
+        this.setState({
+            page,
+            pageSize
+        });
         const _this = this;
-        axios.get(`periodical/search/params?title=${this.state.tab.title}&author=${this.state.tab.author}&publish=${this.state.tab.publish}&type=${this.state.tab.type}&introduction=${this.state.tab.introduction}&pageNum=${page}`)
+        axios.get(`http://localhost:8081/api/article/cnki/search/params?title=${this.state.title}&author=${this.state.author}&introduction=${this.state.introduction}&teacher=${this.state.teacher}&university=${this.state.university}&type=${this.state.type}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -82,67 +93,81 @@ class PeriodicalSearch2 extends Component {
                         key: item.id,
                         title: item.title,
                         author: item.author,
-                        publisher: item.publisher,
-                        date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
+                        introduction: item.introduction,
+                        teacher: item.teacher,
+                        university: item.university,
                         type: item.type,
-                        introduction: item.introduction
+                        date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate()
                     })
                 });
                 _this.setState({
-                    dataSourse: sourse
+                    dataSourse: sourse,
+                    total: res.data.total
                 })
             })
-    }
+    };
+
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const columns = [{
-            title: '标题',
-            dataIndex: 'title',
-            key: 'title',
-        }, {
-            title: '作者',
-            dataIndex: 'author',
-            key: 'author',
-        }, {
-            title: '提供方',
-            dataIndex: 'publisher',
-            key: 'publisher',
-        }, {
-            title: '类型',
-            dataIndex: 'type',
-            key: 'type',
-        }, {
-            title: '发布时间',
-            dataIndex: 'date',
-            key: 'date',
-        }];
+        const columns = [
+            {
+                title: '标题',
+                dataIndex: 'title',
+                key: 'title',
+
+            }, {
+                title: '作者',
+                dataIndex: 'author',
+                key: 'author',
+            }, {
+                title: '老师',
+                dataIndex: 'teacher',
+                key: 'teacher',
+            }, {
+                title: '学校',
+                dataIndex: 'university',
+                key: 'university',
+            }, {
+                title: '类型',
+                dataIndex: 'type',
+                key: 'type',
+            }, {
+                title: '发表时间',
+                dataIndex: 'date',
+                key: 'date',
+            }];
         const extraSearch = () => (
             <div>
                 <Form layout="inline" onSubmit={this.handleSubmit}>
                     <FormItem style={{width: '30%'}} label="标题">
                         {getFieldDecorator('title')(
-                            <Input  placeholder="请输入标题"/>
+                            <Input placeholder="请输入标题"/>
                         )}
                     </FormItem>
                     <FormItem style={{width: '30%'}} label="作者">
                         {getFieldDecorator('author')(
-                            <Input  placeholder="请输入作者"/>
+                            <Input placeholder="请输入作者"/>
                         )}
                     </FormItem>
-                    <FormItem style={{width: '30%'}} label="出版方">
-                        {getFieldDecorator('publish')(
-                            <Input  placeholder="请输入出版方"/>
+                    <FormItem style={{width: '30%'}} label="老师">
+                        {getFieldDecorator('teacher')(
+                            <Input placeholder="请输入老师"/>
                         )}
                     </FormItem>
-                    <FormItem style={{width: '30%'}} label="类型">
+                    <FormItem style={{width: '30%'}} label="学校">
+                        {getFieldDecorator('university')(
+                            <Input placeholder="请输入学校"/>
+                        )}
+                    </FormItem>
+                    <FormItem style={{width: '30%'}} label="专业类型">
                         {getFieldDecorator('type')(
-                            <Input  placeholder="请输入类型"/>
+                            <Input placeholder="请输入专业类型"/>
                         )}
                     </FormItem>
                     <FormItem style={{width: '30%'}} label="摘要">
                         {getFieldDecorator('introduction')(
-                            <TextArea  placeholder="请输入摘要"/>
+                            <TextArea placeholder="请输入摘要"/>
                         )}
                     </FormItem>
                     <FormItem>
@@ -168,9 +193,10 @@ class PeriodicalSearch2 extends Component {
                            expandedRowRender={record => <p style={{margin: 0}}>{record.introduction}</p>}
                            pagination={pagination}/>
                 </Card>
+
             </div>
         )
     }
 }
 
-export default PeriodicalSearch2 = Form.create()(PeriodicalSearch2)
+export default ArticleSearchParams = Form.create()(ArticleSearchParams)

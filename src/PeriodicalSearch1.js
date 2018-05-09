@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Button, Card, Form, Input, Table, Tabs} from 'antd';
+import {Button, Card, Form, Input, Table, Tabs, Divider} from 'antd';
 
 
 const FormItem = Form.Item;
@@ -18,7 +18,7 @@ class PeriodicalSearch1 extends Component {
     }
 
     componentDidMount() {
-        axios.get('periodical/search/all')
+        axios.get('http://localhost:8081/api/periodical/search/all')
             .then((res) => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -27,7 +27,7 @@ class PeriodicalSearch1 extends Component {
                         title: item.title,
                         author: item.author,
                         publisher: item.publisher,
-                        date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
+                        date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate(),
                         type: item.type,
                         introduction: item.introduction
                     })
@@ -47,7 +47,7 @@ class PeriodicalSearch1 extends Component {
                 _this.setState({
                     tab: value
                 });
-                axios.get(`periodical/search/all?queryStr=${value.queryStr}`)
+                axios.get(`http://localhost:8081/api/periodical/search/all?queryStr=${value.queryStr}`)
                     .then(res => {
                         let sourse = [];
                         res.data.list.map(item => {
@@ -56,7 +56,7 @@ class PeriodicalSearch1 extends Component {
                                 title: item.title,
                                 author: item.author,
                                 publisher: item.publisher,
-                                date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
+                                date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate(),
                                 type: item.type,
                                 introduction: item.introduction
                             })
@@ -73,7 +73,7 @@ class PeriodicalSearch1 extends Component {
     handleChangePage(page, pageSize) {
         console.log(page, pageSize);
         const _this = this;
-        axios.get(`periodical/search/all?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
+        axios.get(`http://localhost:8081/api/periodical/search/all?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -82,7 +82,7 @@ class PeriodicalSearch1 extends Component {
                         title: item.title,
                         author: item.author,
                         publisher: item.publisher,
-                        date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月' + new Date(item.date).getDate() + '日',
+                        date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate(),
                         type: item.type,
                         introduction: item.introduction
                     })

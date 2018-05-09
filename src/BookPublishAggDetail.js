@@ -16,7 +16,7 @@ import 'echarts/lib/component/dataZoom';
 
 export default class BookPublishAggDetail extends Component {
     componentDidMount() {
-        axios.get('book/agg/publish')
+        axios.get('http://localhost:8081/api/book/agg/publish')
             .then((res) => {
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = echarts.init(document.getElementById('bookPublishAggDetail'));

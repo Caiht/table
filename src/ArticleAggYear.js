@@ -10,12 +10,12 @@ import  'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 
-export default class EchartsTest7 extends Component {
+export default class EchartsTest6 extends Component {
     componentDidMount() {
-        axios.get('patent/agg/dateHistogram?interval=year')
+        axios.get('http://localhost:8081/api/article/cnki/agg/dateHistogram?interval=year')
             .then((res) => {
                 // 基于准备好的dom，初始化echarts实例
-                let myChart = echarts.init(document.getElementById('main7'));
+                let myChart = echarts.init(document.getElementById('main6'));
                 let sourse1 = [];
                 let sourse2 = [];
                 console.log(res);
@@ -26,7 +26,7 @@ export default class EchartsTest7 extends Component {
                 // 绘制图表
                 myChart.setOption({
                     title: {
-                        text: '专利申请年份折线条状图',
+                        text: '文献年份发布折线条状图',
                         subtext: '数据来自网络'
 
                     },
@@ -59,17 +59,17 @@ export default class EchartsTest7 extends Component {
                             data: sourse2,
                             itemStyle: {
                                 normal: {
-                                    color: '#919191'
+                                    color: '#ADFF2F'
                                 }
                             }
                         },
                         {
-                            name: '专利总数',
+                            name: '文献总数',
                             type: 'bar',
                             data: sourse2,
                             itemStyle: {
                                 normal: {
-                                    color: '#A020F0'
+                                    color: '#BF3EFF'
                                 }
                             }
                         }
@@ -80,7 +80,7 @@ export default class EchartsTest7 extends Component {
     }
     render() {
         return (
-            <div id="main7" style={{ width: 1000, height: 1000 }}></div>
+            <div id="main6" style={{ width: 1000, height: 1000 }}></div>
         );
     }
 }

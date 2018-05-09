@@ -10,7 +10,7 @@ import 'echarts/lib/component/title';
 
 export default class EchartsTest3 extends Component {
     componentDidMount() {
-        axios.get('patent/agg/type')
+        axios.get('http://localhost:8081/api/patent/agg/type')
             .then((res) => {
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = echarts.init(document.getElementById('main3'));

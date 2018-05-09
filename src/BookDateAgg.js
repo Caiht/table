@@ -10,12 +10,13 @@ import  'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 
-export default class EchartsTest5 extends Component {
+
+export default class BookDateAgg extends Component {
     componentDidMount() {
-        axios.get('patent/agg/dateHistogram')
+        axios.get('http://localhost:8081/api/book/agg/dateHistogram?interval=year')
             .then((res) => {
                 // 基于准备好的dom，初始化echarts实例
-                let myChart = echarts.init(document.getElementById('main5'));
+                let myChart = echarts.init(document.getElementById('bookDateAgg'));
                 let sourse1 = [];
                 let sourse2 = [];
                 console.log(res);
@@ -26,7 +27,7 @@ export default class EchartsTest5 extends Component {
                 // 绘制图表
                 myChart.setOption({
                     title: {
-                        text: '专利月份发布折线图',
+                        text: '图书出版年份折线条状图',
                         subtext: '数据来自网络'
 
                     },
@@ -55,12 +56,21 @@ export default class EchartsTest5 extends Component {
                     series: [
 
                         {
-                            name: '专利总数',
                             type: 'line',
                             data: sourse2,
                             itemStyle: {
                                 normal: {
-                                    color: '#CD0000'
+                                    color: '#7CFC00'
+                                }
+                            }
+                        },
+                        {
+                            name: '书籍总数',
+                            type: 'bar',
+                            data: sourse2,
+                            itemStyle: {
+                                normal: {
+                                    color: '#8A2BE2'
                                 }
                             }
                         }
@@ -71,7 +81,7 @@ export default class EchartsTest5 extends Component {
     }
     render() {
         return (
-            <div id="main5" style={{ width: 1000, height: 1000 }}></div>
+            <div id="bookDateAgg" style={{ width: 1000, height: 1000 }}></div>
         );
     }
 }

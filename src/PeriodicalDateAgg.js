@@ -10,12 +10,13 @@ import  'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 
-export default class EchartsTest8 extends Component {
+
+export default class PeriodicalDateAgg extends Component {
     componentDidMount() {
-        axios.get('patent/agg/dateHistogram?interval=year&dateType=publicationDate')
+        axios.get('http://localhost:8081/api/periodical/agg/dateHistogram')
             .then((res) => {
                 // 基于准备好的dom，初始化echarts实例
-                let myChart = echarts.init(document.getElementById('main8'));
+                let myChart = echarts.init(document.getElementById('periodicalDateAgg'));
                 let sourse1 = [];
                 let sourse2 = [];
                 console.log(res);
@@ -26,7 +27,7 @@ export default class EchartsTest8 extends Component {
                 // 绘制图表
                 myChart.setOption({
                     title: {
-                        text: '专利公开年份折线条状图',
+                        text: '期刊出版月份折线条状图',
                         subtext: '数据来自网络'
 
                     },
@@ -64,7 +65,7 @@ export default class EchartsTest8 extends Component {
                             }
                         },
                         {
-                            name: '专利总数',
+                            name: '书籍总数',
                             type: 'bar',
                             data: sourse2,
                             itemStyle: {
@@ -80,7 +81,7 @@ export default class EchartsTest8 extends Component {
     }
     render() {
         return (
-            <div id="main8" style={{ width: 1000, height: 1000 }}></div>
+            <div id="periodicalDateAgg" style={{ width: 1000, height: 1000 }}></div>
         );
     }
 }

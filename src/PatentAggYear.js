@@ -10,13 +10,12 @@ import  'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 
-
-export default class PeriodicalDateAgg extends Component {
+export default class EchartsTest7 extends Component {
     componentDidMount() {
-        axios.get('periodical/agg/dateHistogram')
+        axios.get('http://localhost:8081/api/patent/agg/dateHistogram?interval=year')
             .then((res) => {
                 // 基于准备好的dom，初始化echarts实例
-                let myChart = echarts.init(document.getElementById('periodicalDateAgg'));
+                let myChart = echarts.init(document.getElementById('main7'));
                 let sourse1 = [];
                 let sourse2 = [];
                 console.log(res);
@@ -27,7 +26,7 @@ export default class PeriodicalDateAgg extends Component {
                 // 绘制图表
                 myChart.setOption({
                     title: {
-                        text: '期刊出版月份折线条状图',
+                        text: '专利申请年份折线条状图',
                         subtext: '数据来自网络'
 
                     },
@@ -60,17 +59,17 @@ export default class PeriodicalDateAgg extends Component {
                             data: sourse2,
                             itemStyle: {
                                 normal: {
-                                    color: '#7CFC00'
+                                    color: '#919191'
                                 }
                             }
                         },
                         {
-                            name: '书籍总数',
+                            name: '专利总数',
                             type: 'bar',
                             data: sourse2,
                             itemStyle: {
                                 normal: {
-                                    color: '#8A2BE2'
+                                    color: '#A020F0'
                                 }
                             }
                         }
@@ -81,7 +80,7 @@ export default class PeriodicalDateAgg extends Component {
     }
     render() {
         return (
-            <div id="periodicalDateAgg" style={{ width: 1000, height: 1000 }}></div>
+            <div id="main7" style={{ width: 1000, height: 1000 }}></div>
         );
     }
 }

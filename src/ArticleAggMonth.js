@@ -10,13 +10,12 @@ import  'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 
-
-export default class BookDateAgg extends Component {
+export default class EchartsTest4 extends Component {
     componentDidMount() {
-        axios.get('book/agg/dateHistogram?interval=year')
+        axios.get('http://localhost:8081/api/article/cnki/agg/dateHistogram')
             .then((res) => {
                 // 基于准备好的dom，初始化echarts实例
-                let myChart = echarts.init(document.getElementById('bookDateAgg'));
+                let myChart = echarts.init(document.getElementById('main4'));
                 let sourse1 = [];
                 let sourse2 = [];
                 console.log(res);
@@ -27,11 +26,10 @@ export default class BookDateAgg extends Component {
                 // 绘制图表
                 myChart.setOption({
                     title: {
-                        text: '图书出版年份折线条状图',
+                        text: '文献月份发布折线图',
                         subtext: '数据来自网络'
 
                     },
-
 
                     tooltip: {
                         trigger: 'axis',
@@ -56,21 +54,12 @@ export default class BookDateAgg extends Component {
                     series: [
 
                         {
+                            name: '文献总数',
                             type: 'line',
                             data: sourse2,
                             itemStyle: {
                                 normal: {
-                                    color: '#7CFC00'
-                                }
-                            }
-                        },
-                        {
-                            name: '书籍总数',
-                            type: 'bar',
-                            data: sourse2,
-                            itemStyle: {
-                                normal: {
-                                    color: '#8A2BE2'
+                                    color: '#0000CD'
                                 }
                             }
                         }
@@ -81,7 +70,7 @@ export default class BookDateAgg extends Component {
     }
     render() {
         return (
-            <div id="bookDateAgg" style={{ width: 1000, height: 1000 }}></div>
+            <div id="main4" style={{ width: 1000, height: 1000 }}></div>
         );
     }
 }

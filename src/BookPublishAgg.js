@@ -13,7 +13,7 @@ import 'echarts/lib/component/legendScroll';
 
 export default class BookPublishAgg extends Component {
     componentDidMount() {
-        axios.get('book/agg/publish')
+        axios.get('http://localhost:8081/api/book/agg/publish')
             .then((res) => {
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = echarts.init(document.getElementById('bookPublishAgg'));
@@ -31,7 +31,7 @@ export default class BookPublishAgg extends Component {
                 // 绘制图表
                 myChart.setOption({
                     title : {
-                        text: '同标签书籍数量统计',
+                        text: '同出版社书籍数量统计',
                         subtext: '来源网络',
                         x:'center'
                     },

@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Button, Card, Form, Input, Table, Tabs} from 'antd';
+import {Button, Card, Form, Input, Table, Tabs, Divider} from 'antd';
 
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
 const TabPane = Tabs.TabPane;
 
-class Tab4 extends Component {
+class PatentSearchParams extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +18,7 @@ class Tab4 extends Component {
     }
 
     componentDidMount() {
-        axios.get('patent/search/params')
+        axios.get('http://localhost:8081/api/patent/search/params')
             .then((res) => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -31,8 +31,8 @@ class Tab4 extends Component {
                         publicationNumber: item.publicationNumber,
                         proposer: item.proposer,
                         inventor: item.inventor,
-                        requestDate: new Date(item.requestDate).getFullYear() + '年' + (new Date(item.requestDate).getMonth() + 1) + '月' + new Date(item.requestDate).getDate() + '日',
-                        publicationDate: new Date(item.publicationDate).getFullYear() + '年' + (new Date(item.publicationDate).getMonth() + 1) + '月' + new Date(item.publicationDate).getDate() + '日'
+                        requestDate: new Date(item.requestDate).getFullYear() + '-' + (new Date(item.requestDate).getMonth() + 1) + '-' + new Date(item.requestDate).getDate() ,
+                        publicationDate: new Date(item.publicationDate).getFullYear() + '-' + (new Date(item.publicationDate).getMonth() + 1) + '-' + new Date(item.publicationDate).getDate()
                     })
                 });
                 this.setState({
@@ -50,7 +50,7 @@ class Tab4 extends Component {
                 _this.setState({
                     tab: value
                 });
-                axios.get(`patent/search/params?title=${value.title}&requestNumber=${value.requestNumber}&publicationNumber=${value.publicationNumber}&proposer=${value.proposer}&inventor=${value.inventor}&introduction=${value.introduction}&type=${value.type}`)
+                axios.get(`http://localhost:8081/api/patent/search/params?title=${value.title}&requestNumber=${value.requestNumber}&publicationNumber=${value.publicationNumber}&proposer=${value.proposer}&inventor=${value.inventor}&introduction=${value.introduction}&type=${value.type}`)
                     .then(res => {
                         let sourse = [];
                         res.data.list.map(item => {
@@ -63,8 +63,8 @@ class Tab4 extends Component {
                                 publicationNumber: item.publicationNumber,
                                 proposer: item.proposer,
                                 inventor: item.inventor,
-                                requestDate: new Date(item.requestDate).getFullYear() + '年' + (new Date(item.requestDate).getMonth() + 1) + '月' + new Date(item.requestDate).getDate() + '日',
-                                publicationDate: new Date(item.publicationDate).getFullYear() + '年' + (new Date(item.publicationDate).getMonth() + 1) + '月' + new Date(item.publicationDate).getDate() + '日'
+                                requestDate: new Date(item.requestDate).getFullYear() + '-' + (new Date(item.requestDate).getMonth() + 1) + '-' + new Date(item.requestDate).getDate() ,
+                                publicationDate: new Date(item.publicationDate).getFullYear() + '-' + (new Date(item.publicationDate).getMonth() + 1) + '-' + new Date(item.publicationDate).getDate()
                             })
                         });
                         _this.setState({
@@ -79,7 +79,7 @@ class Tab4 extends Component {
     handleChangePage(page, pageSize) {
         console.log(page, pageSize);
         const _this = this;
-        axios.get(`patent/search/params?title=${this.state.tab.title}&requestNumber=${this.state.tab.requestNumber}&publicationNumber=${this.state.tab.publicationNumber}&proposer=${this.state.tab.proposer}&inventor=${this.state.tab.inventor}&introduction=${this.state.tab.introduction}&type=${this.state.tab.type}&pageNum=${page}`)
+        axios.get(`http://localhost:8081/api/patent/search/params?title=${this.state.tab.title}&requestNumber=${this.state.tab.requestNumber}&publicationNumber=${this.state.tab.publicationNumber}&proposer=${this.state.tab.proposer}&inventor=${this.state.tab.inventor}&introduction=${this.state.tab.introduction}&type=${this.state.tab.type}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {
@@ -92,8 +92,8 @@ class Tab4 extends Component {
                         publicationNumber: item.publicationNumber,
                         proposer: item.proposer,
                         inventor: item.inventor,
-                        requestDate: new Date(item.requestDate).getFullYear() + '年' + (new Date(item.requestDate).getMonth() + 1) + '月' + new Date(item.requestDate).getDate() + '日',
-                        publicationDate: new Date(item.publicationDate).getFullYear() + '年' + (new Date(item.publicationDate).getMonth() + 1) + '月' + new Date(item.publicationDate).getDate() + '日'
+                        requestDate: new Date(item.requestDate).getFullYear() + '-' + (new Date(item.requestDate).getMonth() + 1) + '-' + new Date(item.requestDate).getDate() ,
+                        publicationDate: new Date(item.publicationDate).getFullYear() + '-' + (new Date(item.publicationDate).getMonth() + 1) + '-' + new Date(item.publicationDate).getDate()
                     })
                 });
                 _this.setState({
@@ -142,32 +142,32 @@ class Tab4 extends Component {
                 <Form className="ant-form-inline" layout="inline" onSubmit={this.handleSubmit}>
                     <FormItem style={{width: '30%'}} label="标题">
                         {getFieldDecorator('title')(
-                            <Input  placeholder="请输入标题"/>
+                            <Input placeholder="请输入标题"/>
                         )}
                     </FormItem>
                     <FormItem style={{width: '30%'}} label="申请号">
                         {getFieldDecorator('requestNumber')(
-                            <Input  placeholder="请输入申请号"/>
+                            <Input placeholder="请输入申请号"/>
                         )}
                     </FormItem>
                     <FormItem style={{width: '30%'}} label="公开号">
                         {getFieldDecorator('publicationNumber')(
-                            <Input  placeholder="请输入搜索内容"/>
+                            <Input placeholder="请输入搜索内容"/>
                         )}
                     </FormItem>
                     <FormItem style={{width: '30%'}} label="申请人">
                         {getFieldDecorator('proposer')(
-                            <Input  placeholder="请输入申请人"/>
+                            <Input placeholder="请输入申请人"/>
                         )}
                     </FormItem>
                     <FormItem style={{width: '30%'}} label="发明人">
                         {getFieldDecorator('inventor')(
-                            <Input  placeholder="请输入发明人"/>
+                            <Input placeholder="请输入发明人"/>
                         )}
                     </FormItem>
                     <FormItem style={{width: '30%'}} label="类型">
                         {getFieldDecorator('type')(
-                            <Input  placeholder="请输入类型"/>
+                            <Input placeholder="请输入类型"/>
                         )}
                     </FormItem>
                     <FormItem>
@@ -189,11 +189,13 @@ class Tab4 extends Component {
         return (
             <div>
                 <Card extra={extraSearch()}>
-                    <Table dataSource={this.state.dataSourse} expandedRowRender={record => <p style={{ margin: 0 }}>{record.introduction}</p>} columns={columns} pagination={pagination}/>
+                    <Table dataSource={this.state.dataSourse}
+                           expandedRowRender={record => <p style={{margin: 0}}>{record.introduction}</p>}
+                           columns={columns} pagination={pagination}/>
                 </Card>
             </div>
         )
     }
 }
 
-export default Tab4 = Form.create()(Tab4)
+export default PatentSearchParams = Form.create()(PatentSearchParams)

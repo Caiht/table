@@ -1,398 +1,187 @@
 import React, {Component} from 'react';
-import axios from 'axios';
-import {Button, Card, Form, Input, Table, Tabs} from 'antd';
+import {Form, Icon, Input, Menu, Tabs, Switch, Layout} from 'antd';
+import {Link} from "react-router-dom";
+import 'antd/dist/antd.css';
+import logo from './logo.svg';
+import './Navi.css'
 
-import Tab3 from './tab3';
-import Tab4 from './tab4';
-import EchartsTest from "./tab5";
-import EchartsTest2 from "./tab6";
-import EchartsTest3 from "./tab7";
-import EchartsTest4 from "./tab8";
-import EchartsTest5 from "./tab9";
-import EchartsTest6 from "./tab10";
-import EchartsTest7 from "./tab11";
-import EchartsTest8 from "./tab12";
-import BookSearch1 from "./tab13";
-import BookSearch2 from "./tab14";
-import PeriodicalSearch1 from "./tab15";
-import PeriodicalSearch2 from "./tab16";
-import BookTagAgg from "./tab17";
-import BookPublishAgg from "./tab18";
-import PeriodicalPublishAgg from "./tab19";
-import BookDateAgg from "./tab20";
-import PeriodicalDateAgg from "./tab21";
-import BookTagAggDetail from "./tab22";
-import BookPublishAggDetail from "./tab23";
+const {Header, Content, Footer, Sider} = Layout;
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
 const TabPane = Tabs.TabPane;
-
+const SubMenu = Menu.SubMenu;
+const MenuItem = Menu.Item;
 
 class App extends Component {
 
+    state = {
+        collapsed: false,
+        mode: 'inline',
+    };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            tab1: {},
-            tab2: {},
-            dataSourse: [],
-            dataSourse2: [],
-            total2: null,
-            total: null
-        };
-        this.handleChangePage = this.handleChangePage.bind(this);
+    toggle = () => {
+        console.log('dddd');
+        this.setState({
+            collapsed: !this.state.collapsed,
+        });
     }
 
-    componentDidMount() {
-        axios.get('article/cnki/search/all')
-            .then((res) => {
-                let sourse = [];
-                res.data.list.map(item => {
-                    sourse.push({
-                        key: item.id,
-                        title: item.title,
-                        author: item.author,
-                        introduction: item.introduction,
-                        teacher: item.teacher,
-                        university: item.university,
-                        type: item.type,
-                        date: new Date(item.date).getFullYear()+'年'+(new Date(item.date).getMonth()+1)+'月'
-                    })
-                });
-                this.setState({
-                    dataSourse: sourse,
-                    total: res.data.total
-                })
+    // submenu keys of first level
+    rootSubmenuKeys = ['article-search', 'patent-search', 'book-search',
+        'periodical-search', 'article-agg', 'patent-agg',
+        'book-agg', 'periodical-agg'];
+    state = {
+        openKeys: ['article-search'],
+    };
+    onOpenChange = (openKeys) => {
+        const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
+        if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+            this.setState({openKeys});
+        } else {
+            this.setState({
+                openKeys: latestOpenKey ? [latestOpenKey] : [],
             });
-        axios.get('article/cnki/search/params')
-            .then((res) => {
-                let sourse = [];
-                res.data.list.map(item => {
-                    sourse.push({
-                        key: item.id,
-                        title: item.title,
-                        author: item.author,
-                        introduction: item.introduction,
-                        teacher: item.teacher,
-                        university: item.university,
-                        type: item.type,
-                        date: new Date(item.date).getFullYear()+'年'+(new Date(item.date).getMonth()+1)+'月'
-                    })
-                });
-                this.setState({
-                    dataSourse2: sourse,
-                    total2: res.data.total
-                })
-            })
-    };
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const _this = this;
-        this.props.form.validateFields((err, value) => {
-            if (!err) {
-                _this.setState({
-                    tab1: value
-                });
-                axios.get(`article/cnki/search/all?queryStr=${value.queryStr}`)
-                    .then(res => {
-                        let sourse = [];
-                        res.data.list.map(item => {
-                            sourse.push({
-                                key: item.id,
-                                title: item.title,
-                                author: item.author,
-                                introduction: item.introduction,
-                                teacher: item.teacher,
-                                university: item.university,
-                                type: item.type,
-                                date: new Date(item.date).getFullYear()+'年'+(new Date(item.date).getMonth()+1)+'月'
-                            })
-                        });
-                        _this.setState({
-                            dataSourse: sourse,
-                            total: res.data.total
-                        })
-                    })
-            }
-        })
-    };
-
-    handleSubmit2 = (e) => {
-        e.preventDefault();
-        const _this = this;
-        this.props.form.validateFields((err, value) => {
-            if (!err) {
-                _this.setState({
-                    tab2: value
-                });
-                axios.get(`article/cnki/search/params?title=${value.title}&author=${value.author}&introduction=${value.introduction}&teacher=${value.teacher}&university=${value.university}&type=${value.type}`)
-                    .then(res => {
-                        let sourse = [];
-                        res.data.list.map(item => {
-                            sourse.push({
-                                key: item.id,
-                                title: item.title,
-                                author: item.author,
-                                introduction: item.introduction,
-                                teacher: item.teacher,
-                                university: item.university,
-                                type: item.type,
-                                date: new Date(item.date).getFullYear()+'年'+(new Date(item.date).getMonth()+1)+'月'
-                            })
-                        });
-                        _this.setState({
-                            dataSourse2: sourse,
-                            total2: res.data.total
-                        })
-                    })
-            }
-        })
-    };
-
-    handleChangePage(page, pageSize) {
-        console.log(page, pageSize);
-        const _this = this;
-        axios.get(`article/cnki/search/all?queryStr=${this.state.tab1.queryStr}&pageNum=${page}`)
-            .then(res => {
-                let sourse = [];
-                res.data.list.map(item => {
-                    sourse.push({
-                        key: item.id,
-                        title: item.title,
-                        author: item.author,
-                        introduction: item.introduction,
-                        teacher: item.teacher,
-                        university: item.university,
-                        type: item.type,
-                        date: new Date(item.date).getFullYear()+'年'+(new Date(item.date).getMonth()+1)+'月'
-                    })
-                });
-                _this.setState({
-                    dataSourse: sourse
-                })
-            })
-    };
-
-    handleChangePage2(page, pageSize) {
-        console.log(page, pageSize);
-        const _this = this;
-        axios.get(`article/cnki/search/params?title=${this.state.tab2.title}&author=${this.state.tab2.author}&introduction=${this.state.tab2.introduction}&teacher=${this.state.tab2.teacher}&university=${this.state.tab2.university}&type=${this.state.tab2.type}&pageNum=${page}`)
-            .then(res => {
-                let sourse = [];
-                res.data.list.map(item => {
-                    sourse.push({
-                        key: item.id,
-                        title: item.title,
-                        author: item.author,
-                        introduction: item.introduction,
-                        teacher: item.teacher,
-                        university: item.university,
-                        type: item.type,
-                        date: new Date(item.date).getFullYear()+'年'+(new Date(item.date).getMonth()+1)+'月'
-                    })
-                });
-                _this.setState({
-                    dataSourse2: sourse
-                })
-            })
-    };
+        }
+    }
 
     render() {
-
-        const {getFieldDecorator} = this.props.form;
-
-        const columns = [
-
-            {
-            title: '标题',
-            dataIndex: 'title',
-            key: 'title',
-
-        }, {
-            title: '作者',
-            dataIndex: 'author',
-            key: 'author',
-        }, {
-            title: '老师',
-            dataIndex: 'teacher',
-            key: 'teacher',
-        }, {
-            title: '学校',
-            dataIndex: 'university',
-            key: 'university',
-        }, {
-            title: '类型',
-            dataIndex: 'type',
-            key: 'type',
-        }, {
-            title: '发表时间',
-            dataIndex: 'date',
-            key: 'date',
-        }];
-
-
-        const extraSearch1 = () => (
-            <div>
-                <Form layout="inline" onSubmit={this.handleSubmit}>
-                    <FormItem >
-                        {getFieldDecorator('queryStr')(
-                            <Input style={{width:'900px' }} placeholder="请输入搜索内容"/>
-                        )}
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" htmlType="submit">
-                            全文搜索
-                        </Button>
-                    </FormItem>
-                </Form>
-            </div>
-        );
-
-        const extraSearch2 = () => (
-            <div>
-                <Form layout="inline" onSubmit={this.handleSubmit2}>
-                    <FormItem style={{width: '30%'}} label="标题">
-                        {getFieldDecorator('title')(
-                            <Input  placeholder="请输入标题"/>
-                        )}
-                    </FormItem>
-                    <FormItem style={{width: '30%'}} label="作者">
-                        {getFieldDecorator('author')(
-                            <Input  placeholder="请输入作者"/>
-                        )}
-                    </FormItem>
-                    <FormItem style={{width: '30%'}} label="老师">
-                        {getFieldDecorator('teacher')(
-                            <Input placeholder="请输入老师"/>
-                        )}
-                    </FormItem>
-                    <FormItem style={{width: '30%'}} label="学校">
-                        {getFieldDecorator('university')(
-                            <Input  placeholder="请输入学校"/>
-                        )}
-                    </FormItem>
-                    <FormItem style={{width: '30%'}} label="专业类型">
-                        {getFieldDecorator('type')(
-                            <Input  placeholder="请输入专业类型"/>
-                        )}
-                    </FormItem>
-                    <FormItem style={{width: '30%'}} label="摘要">
-                        {getFieldDecorator('introduction')(
-                            <TextArea  placeholder="请输入摘要"/>
-                        )}
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" htmlType="submit">
-                            精准搜索
-                        </Button>
-                    </FormItem>
-                </Form>
-            </div>
-        );
-
-        const pagination1 = {
-            total: this.state.total,
-            pageSize: 20,
-            showTotal: total => `共${total}条`,
-            onChange: (page, pageSize) => {
-                this.handleChangePage(page, pageSize)
-            }
-        };
-        const pagination2 = {
-            total: this.state.total2,
-            pageSize: 20,
-            showTotal: total => `共${total}条`,
-            onChange: (page, pageSize) => {
-                this.handleChangePage2(page, pageSize)
-            }
-        };
-
-
+        const {children} = this.props;
         return (
-            <div >
+            <Layout>
+                <Sider
+                    trigger={null}
+                    collapsible
+                    collapsed={this.state.collapsed}
+                >
+                    <div className="logo">
+                        <Link to="/article/search/params"><img src={logo} alt="logo"/><span
+                            className="nav-text">文献检索系统</span></Link>
+                    </div>
+                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['article-search']}
+                          openKeys={this.state.openKeys} onOpenChange={this.onOpenChange}>
+                        <SubMenu key="article-search" title={<span><Icon type="copy"/><span>论文检索</span></span>}>
+                            <MenuItem key="article-all">
+                                <Link to="/article/search/all">论文全文搜索</Link>
+                            </MenuItem>
+                            <MenuItem key="article-params">
+                                <Link to="/article/search/params">论文精准搜索</Link>
+                            </MenuItem>
+                        </SubMenu>
 
-                <Tabs defaultActiveKey="1" tabPosition="left" style={{color:'#00CC00'}} >
-                    <TabPane tab="文献全文搜索" key="1">
-                        <Card extra={extraSearch1()}>
-                            <Table dataSource={this.state.dataSourse}
-                                   expandedRowRender={record => <p style={{ margin: 0 }}>{record.introduction}</p>} columns={columns} pagination={pagination1}/>
-                        </Card>
-                    </TabPane>
-                    <TabPane tab="文献精准搜索" key="2">
-                        <Card extra={extraSearch2()}>
-                            <Table dataSource={this.state.dataSourse2} expandedRowRender={record => <p style={{ margin: 0 }}>{record.introduction}</p>} columns={columns} pagination={pagination2}/>
-                        </Card>
-                    </TabPane>
-                    <TabPane tab="专利全文搜索" key="3">
-                        <Tab3/>
-                    </TabPane>
-                    <TabPane tab="专利精准搜索" key="4">
-                        <Tab4/>
-                    </TabPane>
-                    <TabPane tab="图书全文搜索" key="13">
-                        <BookSearch1/>
-                    </TabPane>
-                    <TabPane tab="图书精准搜索" key="14">
-                        <BookSearch2/>
-                    </TabPane>
-                    <TabPane tab="期刊全文搜索" key="15">
-                        <PeriodicalSearch1/>
-                    </TabPane>
-                    <TabPane tab="期刊精准搜索" key="16">
-                        <PeriodicalSearch2/>
-                    </TabPane>
-                    <TabPane tab="硕士论文贡献前十高校" key="5">
-                        <EchartsTest/>
-                    </TabPane>
-                    <TabPane tab="硕士论文贡献前十专业" key="6">
-                        <EchartsTest2/>
-                    </TabPane>
-                    <TabPane tab="专利贡献前十类别" key="7">
-                        <EchartsTest3/>
-                    </TabPane>
-                    <TabPane tab="文献月份发布折线图" key="8">
-                        <EchartsTest4/>
-                    </TabPane>
-                    <TabPane tab="专利月份发布折线图" key="9">
-                        <EchartsTest5/>
-                    </TabPane>
-                    <TabPane tab="文献年份发布折线条状图" key="10">
-                        <EchartsTest6/>
-                    </TabPane>
-                    <TabPane tab="专利申请年份折线条状图" key="11">
-                        <EchartsTest7/>
-                    </TabPane>
-                    <TabPane tab="专利公开年份折线条状图" key="12">
-                        <EchartsTest8/>
-                    </TabPane>
-                    <TabPane tab="同标签书籍数量统计" key="17">
-                        <BookTagAgg/>
-                    </TabPane>
-                    <TabPane tab="同出版社书籍数量统计" key="18">
-                        <BookPublishAgg/>
-                    </TabPane>
-                    <TabPane tab="同提供方期刊数量统计" key="19">
-                        <PeriodicalPublishAgg/>
-                    </TabPane>
-                    <TabPane tab="图书出版年份折线条状图" key="20">
-                        <BookDateAgg/>
-                    </TabPane>
-                    <TabPane tab="期刊出版月份折线条状图" key="21">
-                        <PeriodicalDateAgg/>
-                    </TabPane>
-                    <TabPane tab="标签书籍详情" key="22">
-                        <BookTagAggDetail/>
-                    </TabPane>
-                    <TabPane tab="出版社书籍详情" key="23">
-                        <BookPublishAggDetail/>
-                    </TabPane>
+                        <SubMenu key="patent-search" title={<span><Icon type="code-o"/><span>专利检索</span></span>}>
+                            <MenuItem key="patent-all">
+                                <Link to="/patent/search/all">专利全文搜索</Link>
+                            </MenuItem>
+                            <MenuItem key="patent-params">
+                                <Link to="/patent/search/params">专利精准搜索</Link>
+                            </MenuItem>
+                        </SubMenu>
 
-                </Tabs>
-            </div>
+                        <SubMenu key="book-search" title={<span><Icon type="book"/><span>图书检索</span></span>}>
+                            <MenuItem key="book-all">
+                                <Link to="/book/search/all">图书全文搜索</Link>
+                            </MenuItem>
+                            <MenuItem key="book-params">
+                                <Link to="/book/search/params">图书精准搜索</Link>
+                            </MenuItem>
+                        </SubMenu>
+
+                        <SubMenu key="periodical-search" title={<span><Icon type="file"/><span>期刊检索</span></span>}>
+                            <MenuItem key="periodical-all">
+                                <Link to="/periodical/search/all">期刊全文搜索</Link>
+                            </MenuItem>
+                            <MenuItem key="periodical-params">
+                                <Link to="/periodical/search/params">期刊精准搜索</Link>
+                            </MenuItem>
+                        </SubMenu>
+
+                        <SubMenu key="article-agg" title={<span><Icon type="bar-chart"/><span>论文图表</span></span>}>
+                            <MenuItem key="article-type">
+                                <Link to="/article/agg/type">硕士论文贡献前十专业</Link>
+                            </MenuItem>
+                            <MenuItem key="article-university">
+                                <Link to="/article/agg/university">硕士论文贡献前十高校</Link>
+                            </MenuItem>
+                            <MenuItem key="article-month">
+                                <Link to="/article/agg/month">文献月份发布折线图</Link>
+                            </MenuItem>
+                            <MenuItem key="article-year">
+                                <Link to="/article/agg/year">文献年份发布折线图</Link>
+                            </MenuItem>
+                        </SubMenu>
+
+                        <SubMenu key="patent-agg" title={<span><Icon type="area-chart"/><span>专利图表</span></span>}>
+                            <MenuItem key="patent-type">
+                                <Link to="/patent/agg/type">专利贡献前十类别</Link>
+                            </MenuItem>
+                            <MenuItem key="patent-month">
+                                <Link to="/patent/agg/month">专利月份发布折线图</Link>
+                            </MenuItem>
+                            <MenuItem key="patent-year">
+                                <Link to="/patent/agg/year">专利申请年份折线条状图</Link>
+                            </MenuItem>
+                            <MenuItem key="patent-pubyear">
+                                <Link to="/patent/agg/pubyear">专利公开年份折线条状图</Link>
+                            </MenuItem>
+                        </SubMenu>
+
+                        <SubMenu key="book-agg" title={<span><Icon type="pie-chart"/><span>图书图表</span></span>}>
+                            <MenuItem key="book-tag">
+                                <Link to="/book/agg/tag">同标签书籍数量统计</Link>
+                            </MenuItem>
+                            <MenuItem key="book-publish">
+                                <Link to="/book/agg/publish">同出版社书籍数量统计</Link>
+                            </MenuItem>
+                            <MenuItem key="book-date">
+                                <Link to="/book/agg/date">图书出版年份折线条状图</Link>
+                            </MenuItem>
+                            <MenuItem key="book-tag-detail">
+                                <Link to="/book/agg/tagDetail">标签书籍详情</Link>
+                            </MenuItem>
+                            <MenuItem key="book-publish-detail">
+                                <Link to="/book/agg/publishDetail">出版社书籍详情</Link>
+                            </MenuItem>
+                        </SubMenu>
+
+                        <SubMenu key="periodical-agg" title={<span><Icon type="dot-chart"/><span>期刊图表</span></span>}>
+                            <MenuItem key="periodical-type">
+                                <Link to="/periodical/agg/type">同标签期刊数量统计</Link>
+                            </MenuItem>
+                            <MenuItem key="periodical-dateHistogram">
+                                <Link to="/periodical/agg/dateHistogram">期刊出版月份折线条状图</Link>
+                            </MenuItem>
+                        </SubMenu>
+                    </Menu>
+                </Sider>
+                <Layout>
+                    <Header style={{background: '#000', padding: 0}}>
+                        <span style={{color: '#fff', paddingLeft: '2%', fontSize: '1.4em'}}>
+                            <Icon
+                                className="trigger"
+                                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                onClick={this.toggle}
+                                style={{cursor: 'pointer'}}
+                            />
+                        </span>
+                        <span style={{color: '#fff', paddingLeft: '2%', fontSize: '1.4em'}}>Article Search System</span>
+                        <span style={{color: '#fff', float: 'right', paddingRight: '1%'}}>
+                            <img src={logo} className="App-logo" alt="logo"/>
+                        </span>
+                    </Header>
+                    <Content style={{margin: '0 16px'}}>
+                        <div style={{padding: 24, background: '#fff', minHeight: 780}}>
+                            {children}
+                        </div>
+                    </Content>
+                    <Footer style={{textAlign: 'center'}}>
+                        Article Search ©2018 Created by Cai Huatao
+                    </Footer>
+                </Layout>
+            </Layout>
+
         );
     }
 }
+
 export default App = Form.create()(App);

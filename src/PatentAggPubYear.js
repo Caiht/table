@@ -10,12 +10,12 @@ import  'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 
-export default class EchartsTest4 extends Component {
+export default class EchartsTest8 extends Component {
     componentDidMount() {
-        axios.get('article/cnki/agg/dateHistogram')
+        axios.get('http://localhost:8081/api/patent/agg/dateHistogram?interval=year&dateType=publicationDate')
             .then((res) => {
                 // 基于准备好的dom，初始化echarts实例
-                let myChart = echarts.init(document.getElementById('main4'));
+                let myChart = echarts.init(document.getElementById('main8'));
                 let sourse1 = [];
                 let sourse2 = [];
                 console.log(res);
@@ -26,10 +26,11 @@ export default class EchartsTest4 extends Component {
                 // 绘制图表
                 myChart.setOption({
                     title: {
-                        text: '文献月份发布折线图',
+                        text: '专利公开年份折线条状图',
                         subtext: '数据来自网络'
 
                     },
+
 
                     tooltip: {
                         trigger: 'axis',
@@ -54,12 +55,21 @@ export default class EchartsTest4 extends Component {
                     series: [
 
                         {
-                            name: '文献总数',
                             type: 'line',
                             data: sourse2,
                             itemStyle: {
                                 normal: {
-                                    color: '#0000CD'
+                                    color: '#7CFC00'
+                                }
+                            }
+                        },
+                        {
+                            name: '专利总数',
+                            type: 'bar',
+                            data: sourse2,
+                            itemStyle: {
+                                normal: {
+                                    color: '#8A2BE2'
                                 }
                             }
                         }
@@ -70,7 +80,7 @@ export default class EchartsTest4 extends Component {
     }
     render() {
         return (
-            <div id="main4" style={{ width: 1000, height: 1000 }}></div>
+            <div id="main8" style={{ width: 1000, height: 1000 }}></div>
         );
     }
 }

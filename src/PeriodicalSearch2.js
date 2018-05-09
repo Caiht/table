@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Button, Card, Form, Input, Table, Tabs} from 'antd';
+import {Button, Card, Form, Input, Table, Tabs, Divider} from 'antd';
 
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
 const TabPane = Tabs.TabPane;
 
-class BookSearch1 extends Component {
+class PeriodicalSearch2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,22 +18,18 @@ class BookSearch1 extends Component {
     }
 
     componentDidMount() {
-        axios.get('book/search/all')
+        axios.get('http://localhost:8081/api/periodical/search/params')
             .then((res) => {
                 let sourse = [];
                 res.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,
-                        score: item.score,
                         author: item.author,
-                        price: item.price,
-                        person: item.person,
-                        date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月',
-                        publish: item.publish,
-                        tag: item.tag,
-                        introduction: item.introduction,
-                        isbn: item.isbn
+                        publisher: item.publisher,
+                        date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate(),
+                        type: item.type,
+                        introduction: item.introduction
 
                     })
                 });
@@ -52,22 +48,18 @@ class BookSearch1 extends Component {
                 _this.setState({
                     tab: value
                 });
-                axios.get(`book/search/all?queryStr=${value.queryStr}`)
+                axios.get(`http://localhost:8081/api/periodical/search/params?title=${value.title}&author=${value.author}&publish=${value.publish}&type=${value.type}&introduction=${value.introduction}`)
                     .then(res => {
                         let sourse = [];
                         res.data.list.map(item => {
                             sourse.push({
                                 key: item.id,
                                 title: item.title,
-                                score: item.score,
                                 author: item.author,
-                                price: item.price,
-                                person: item.person,
-                                date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月',
-                                publish: item.publish,
-                                tag: item.tag,
-                                introduction: item.introduction,
-                                isbn: item.isbn
+                                publisher: item.publisher,
+                                date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate(),
+                                type: item.type,
+                                introduction: item.introduction
                             })
                         });
                         _this.setState({
@@ -82,22 +74,18 @@ class BookSearch1 extends Component {
     handleChangePage(page, pageSize) {
         console.log(page, pageSize);
         const _this = this;
-        axios.get(`book/search/all?queryStr=${this.state.tab.queryStr}&pageNum=${page}`)
+        axios.get(`http://localhost:8081/api/periodical/search/params?title=${this.state.tab.title}&author=${this.state.tab.author}&publish=${this.state.tab.publish}&type=${this.state.tab.type}&introduction=${this.state.tab.introduction}&pageNum=${page}`)
             .then(res => {
                 let sourse = [];
                 res.data.list.map(item => {
                     sourse.push({
                         key: item.id,
                         title: item.title,
-                        score: item.score,
                         author: item.author,
-                        price: item.price,
-                        person: item.person,
-                        date: new Date(item.date).getFullYear() + '年' + (new Date(item.date).getMonth() + 1) + '月',
-                        publish: item.publish,
-                        tag: item.tag,
-                        introduction: item.introduction,
-                        isbn: item.isbn
+                        publisher: item.publisher,
+                        date: new Date(item.date).getFullYear() + '-' + (new Date(item.date).getMonth() + 1) + '-'+ new Date(item.date).getDate(),
+                        type: item.type,
+                        introduction: item.introduction
                     })
                 });
                 _this.setState({
@@ -117,45 +105,49 @@ class BookSearch1 extends Component {
             dataIndex: 'author',
             key: 'author',
         }, {
-            title: '出版方',
-            dataIndex: 'publish',
-            key: 'publish',
+            title: '提供方',
+            dataIndex: 'publisher',
+            key: 'publisher',
         }, {
             title: '类型',
-            dataIndex: 'tag',
-            key: 'tag',
+            dataIndex: 'type',
+            key: 'type',
         }, {
-            title: '价格',
-            dataIndex: 'price',
-            key: 'price',
-        }, {
-            title: '出版时间',
+            title: '发布时间',
             dataIndex: 'date',
             key: 'date',
-        }, {
-            title: '评分',
-            dataIndex: 'score',
-            key: 'score',
-        }, {
-            title: '评分人数',
-            dataIndex: 'person',
-            key: 'person',
-        }, {
-            title: 'isbn',
-            dataIndex: 'isbn',
-            key: 'isbn',
         }];
         const extraSearch = () => (
             <div>
                 <Form layout="inline" onSubmit={this.handleSubmit}>
-                    <FormItem>
-                        {getFieldDecorator('queryStr')(
-                            <Input style={{width: '900px'}} placeholder="请输入搜索内容"/>
+                    <FormItem style={{width: '30%'}} label="标题">
+                        {getFieldDecorator('title')(
+                            <Input  placeholder="请输入标题"/>
+                        )}
+                    </FormItem>
+                    <FormItem style={{width: '30%'}} label="作者">
+                        {getFieldDecorator('author')(
+                            <Input  placeholder="请输入作者"/>
+                        )}
+                    </FormItem>
+                    <FormItem style={{width: '30%'}} label="出版方">
+                        {getFieldDecorator('publish')(
+                            <Input  placeholder="请输入出版方"/>
+                        )}
+                    </FormItem>
+                    <FormItem style={{width: '30%'}} label="类型">
+                        {getFieldDecorator('type')(
+                            <Input  placeholder="请输入类型"/>
+                        )}
+                    </FormItem>
+                    <FormItem style={{width: '30%'}} label="摘要">
+                        {getFieldDecorator('introduction')(
+                            <TextArea  placeholder="请输入摘要"/>
                         )}
                     </FormItem>
                     <FormItem>
                         <Button type="primary" htmlType="submit">
-                            全文搜索
+                            精准搜索
                         </Button>
                     </FormItem>
                 </Form>
@@ -181,4 +173,4 @@ class BookSearch1 extends Component {
     }
 }
 
-export default BookSearch1 = Form.create()(BookSearch1)
+export default PeriodicalSearch2 = Form.create()(PeriodicalSearch2)
