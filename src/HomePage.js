@@ -9,7 +9,7 @@ export default class HomePage extends Component {
         var ctx = c.getContext('2d');
         // var w = c.width = window.innerWidth;
         var w = c.width = document.getElementById('cavansName').offsetWidth;
-        var h = c.height = document.getElementById('cavansName').offsetHeight+5;
+        var h = c.height = document.getElementById('cavansName').offsetHeight;
         console.log(h);
         console.log(w);
         var img;
