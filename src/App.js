@@ -21,7 +21,6 @@ class App extends Component {
     };
 
     toggle = () => {
-        console.log('dddd');
         this.setState({
             collapsed: !this.state.collapsed,
         });
@@ -55,7 +54,7 @@ class App extends Component {
                     collapsed={this.state.collapsed}
                 >
                     <div className="logo">
-                        <Link to="/article/search/params"><img src={logo} alt="logo"/><span
+                        <Link to="/"><img src={logo} alt="logo"/><span
                             className="nav-text">文献检索系统</span></Link>
                     </div>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['article-search']}
@@ -169,12 +168,12 @@ class App extends Component {
                             <img src={logo} className="App-logo" alt="logo"/>
                         </span>
                     </Header>
-                    <Content style={{margin: '0 16px'}}>
-                        <div style={{padding: 24, background: '#fff', minHeight: 780}}>
+                    <Content style={{margin: '0'}}>
+                        <div id="cavansName" style={{padding: 0, background: 'white', minHeight: 780}}>
                             {children}
                         </div>
                     </Content>
-                    <Footer style={{textAlign: 'center'}}>
+                    <Footer style={{background: 'black',textAlign: 'center',color:"white"}}>
                         Article Search ©2018 Created by Cai Huatao
                     </Footer>
                 </Layout>

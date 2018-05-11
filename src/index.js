@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router,Switch, Route} from 'react-router-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
@@ -27,10 +27,13 @@ import BookTagAggDetail from "./BookTagAggDetail";
 import BookPublishAggDetail from "./BookPublishAggDetail";
 import PeriodicalTypeAgg from "./PeriodicalTypeAgg";
 import PeriodicalDateAgg from "./PeriodicalDateAgg";
+import HomePage from "./HomePage";
 
 ReactDOM.render(
     <Router>
         <App>
+            <Route exact path="/" component={HomePage}/>
+
             <Route path="/article/search/all" component={ArticleSearchAll}/>
             <Route path="/article/search/params" component={ArticleSearchParams}/>
 
@@ -63,5 +66,6 @@ ReactDOM.render(
             <Route path="/periodical/agg/dateHistogram" component={PeriodicalDateAgg}/>
 
         </App>
-    </Router>, document.getElementById('root'));
+    </Router>,
+    document.getElementById('root'));
 registerServiceWorker();
